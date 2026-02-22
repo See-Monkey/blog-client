@@ -1,3 +1,3 @@
-# React + Vite
+# The Odin Project - Blog - React Frontend
 
-Title
+Backend project available at https://github.com/See-Monkey/blog-api
