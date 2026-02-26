@@ -1,5 +1,5 @@
 {
-	"name": "template-react",
+	"name": "blog-client",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -11,8 +11,10 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@tanstack/react-query": "^5.90.21",
 		"react": "^19.2.0",
-		"react-dom": "^19.2.0"
+		"react-dom": "^19.2.0",
+		"react-router": "^7.13.1"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
