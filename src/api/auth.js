@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch } from "./client.js";
 
 export const register = async (data) => {
 	const res = await apiFetch("/auth/register", {

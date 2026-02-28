@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch } from "./client.js";
 
 export const updateComment = (commentId, data) =>
 	apiFetch(`/comments/${commentId}`, {

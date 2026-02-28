@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch } from "./client.js";
 
 // Get account details
 export const getMe = () => apiFetch("/users/me");

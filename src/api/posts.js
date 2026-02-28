@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch } from "./client.js";
 
 // Get all public posts
 export const getPublicPosts = (params = {}) => {

@@ -9,6 +9,8 @@ import Login from "../pages/Login/Login.jsx";
 import Dashboard from "../pages/Dashboard/Dashboard.jsx";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 
+import ProtectedRoute from "../components/ProtectedRoute.jsx";
+
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -20,7 +22,14 @@ const router = createBrowserRouter([
 			{ path: "posts/:slug", element: <PostDetail /> },
 			{ path: "login", element: <Login /> },
 			{ path: "register", element: <Register /> },
-			{ path: "dashboard", element: <Dashboard /> },
+			{
+				path: "dashboard",
+				element: (
+					<ProtectedRoute requireAdmin>
+						<Dashboard />
+					</ProtectedRoute>
+				),
+			},
 		],
 	},
 ]);
