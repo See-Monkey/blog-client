@@ -1,0 +1,6 @@
+.postsSection {
+	flex: 1;
+	max-width: 1400px;
+	padding: 12px;
+	font-family: "Roboto", sans-serif;
+}
