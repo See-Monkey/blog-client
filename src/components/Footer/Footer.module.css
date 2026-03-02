@@ -1,7 +1,7 @@
 .footer {
 	display: flex;
 	justify-content: center;
-	font-family: "Roboto";
+	font-family: "Roboto", sans-serif;
 	color: var(--black);
 
 	background-image: linear-gradient(var(--cerulean), var(--blue));
@@ -30,6 +30,20 @@
 	align-items: center;
 	border: 1px solid var(--carbon);
 	border-radius: 14px;
+
+	transition:
+		border 250ms ease-out,
+		box-shadow 250ms ease-out;
+}
+
+.githubContainer:hover {
+	border: solid 1px var(--emerald);
+	box-shadow: 0px 2px 6px var(--emerald);
+	cursor: grabbing;
+
+	transition:
+		border 500ms ease-in,
+		box-shadow 500ms ease-in;
 }
 
 .githubLogo {
@@ -49,10 +63,20 @@
 	padding: 4px 12px;
 	border: 2px solid transparent;
 	border-radius: 5px;
+
+	transition:
+		border 150ms ease-out,
+		box-shadow 150ms ease-out,
+		background-color 150ms ease-out;
 }
 
 .linkContainer a:hover {
 	background-color: var(--cerulean);
 	border: solid 2px var(--emerald);
 	box-shadow: 0px 2px 10px var(--emerald);
+
+	transition:
+		border 300ms ease-in,
+		box-shadow 300ms ease-in,
+		background-color 300ms ease-in;
 }
