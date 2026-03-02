@@ -1,0 +1,128 @@
+.header {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+
+	background-image: linear-gradient(var(--blue), var(--cerulean));
+}
+
+.headerContainer {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	max-width: 1400px;
+}
+
+.headerTop {
+	display: flex;
+	justify-content: space-between;
+}
+
+.logoContainer {
+	display: flex;
+	align-items: flex-start;
+}
+
+.imgContainer {
+	height: 100px;
+	width: 100px;
+	border-radius: 50px;
+	border: 3px solid var(--black);
+	background-image: linear-gradient(var(--silver), var(--steel));
+	margin: 12px;
+	margin-bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logoImg {
+	height: 90px;
+	width: 90px;
+	margin-top: 6px;
+}
+
+.logoTextContainer {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+}
+
+.logoFront,
+.logoCenter,
+.logoEnd {
+	font-family: "Gochi Hand";
+	color: var(--black);
+}
+
+.logoFront {
+	font-size: 38px;
+}
+
+.logoCenter {
+	font-size: 52px;
+}
+
+.logoEnd {
+	font-size: 36px;
+}
+
+.header a {
+	align-self: flex-start;
+	text-decoration: none;
+	font-family: "Roboto";
+	color: var(--black);
+	padding: 4px 12px;
+	font-size: 18px;
+	border-radius: 5px;
+	border: solid 2px transparent;
+}
+
+.header a:hover:not(.active) {
+	background-color: var(--teal);
+	border: solid 2px var(--green);
+	box-shadow: 0px 2px 10px var(--emerald);
+}
+
+.authContainer {
+	display: flex;
+	gap: 10px;
+	padding: 22px;
+}
+
+.logoutBtn {
+	align-self: flex-start;
+	background: none;
+	border: none;
+	color: var(--black);
+	cursor: pointer;
+	font-family: "Roboto";
+	font-size: 18px;
+	padding: 4px 12px;
+	border-radius: 5px;
+	border: solid 2px transparent;
+}
+
+.logoutBtn:hover {
+	background-color: var(--teal);
+	border: solid 2px var(--green);
+	box-shadow: 0px 2px 10px var(--emerald);
+}
+
+.headerBottom {
+	display: flex;
+	justify-content: center;
+}
+
+.nav {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	padding: 12px;
+	padding-top: 0;
+}
+
+a.active {
+	border-bottom: 2px solid var(--green);
+}
