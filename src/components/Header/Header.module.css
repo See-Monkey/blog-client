@@ -52,7 +52,7 @@
 .logoFront,
 .logoCenter,
 .logoEnd {
-	font-family: "Gochi Hand";
+	font-family: "Gochi Hand", cursive;
 	color: var(--black);
 }
 
@@ -71,7 +71,7 @@
 .header a {
 	align-self: flex-start;
 	text-decoration: none;
-	font-family: "Roboto";
+	font-family: "Roboto", sans-serif;
 	color: var(--black);
 	padding: 4px 12px;
 	font-size: 18px;
@@ -97,7 +97,7 @@
 	border: none;
 	color: var(--black);
 	cursor: pointer;
-	font-family: "Roboto";
+	font-family: "Roboto", sans-serif;
 	font-size: 18px;
 	padding: 4px 12px;
 	border-radius: 5px;
