@@ -41,21 +41,29 @@ export default function Posts() {
 
 	return (
 		<section className={styles.postsSection}>
-			<h1>
-				Posts (Page {currentPage} of {totalPages})
-			</h1>
+			<h3 className={styles.pageNumHeader}>
+				Page {currentPage} of {totalPages}
+			</h3>
 
 			{posts.map((post) => (
-				<div key={post.id}>
-					<h2>{post.title}</h2>
-					<p>{post.content}</p>
+				<div key={post.id} className={styles.postContainer}>
+					<h2 className={styles.postTitle}>{post.title}</h2>
+
+					<div className={styles.postContentContainer}>
+						<p className={styles.postContent}>{post.content}</p>
+						<p className={styles.createdDate}>Created: </p>
+						<p className={styles.editedDate}>Edited: </p>
+					</div>
+
 					<h4>Comments</h4>
 
-					{post.comments.map((comment) => (
-						<div key={comment.id}>
-							<p>{comment.content}</p>
-						</div>
-					))}
+					<div className={styles.commentsContainer}>
+						{post.comments.map((comment) => (
+							<div key={comment.id} className={styles.commentContainer}>
+								<p>{comment.content}</p>
+							</div>
+						))}
+					</div>
 
 					<Link to={`/posts/${post.slug}`}>
 						<button>Show More</button>
@@ -63,13 +71,15 @@ export default function Posts() {
 				</div>
 			))}
 
-			<div style={{ marginTop: "1rem" }}>
+			<div className={styles.pageContainer}>
 				{hasPrevious && (
 					<Link to={`/posts?page=${currentPage - 1}`}>
 						<button>Previous</button>
 					</Link>
 				)}
-
+				<p>
+					Page {currentPage} of {totalPages}
+				</p>
 				{hasNext && (
 					<Link to={`/posts?page=${currentPage + 1}`}>
 						<button style={{ marginLeft: "0.5rem" }}>Next</button>
