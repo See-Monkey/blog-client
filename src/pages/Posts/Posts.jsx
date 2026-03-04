@@ -58,7 +58,9 @@ export default function Posts() {
 
 				return (
 					<div key={post.id} className={styles.postContainer}>
-						<h2 className={styles.postTitle}>{post.title}</h2>
+						<Link to={`/posts/${post.slug}`}>
+							<h2 className={styles.postTitle}>{post.title}</h2>
+						</Link>
 
 						<div className={styles.postContentContainer}>
 							<p className={styles.postContent}>{post.content}</p>
@@ -96,13 +98,17 @@ export default function Posts() {
 
 								return (
 									<div key={comment.id} className={styles.commentContainer}>
-										<img
-											src={comment.author.avatarUrl || defaultAvatar}
-											alt="avatar"
-											className={styles.avatar}
-										/>
+										<Link to={`/users/${comment.author.id}`}>
+											<img
+												src={comment.author.avatarUrl || defaultAvatar}
+												alt="avatar"
+												className={styles.avatar}
+											/>
+										</Link>
 										<div className={styles.commentContentContainer}>
-											<h4>{username}</h4>
+											<Link to={`/users/${comment.author.id}`}>
+												<h4>{username}</h4>
+											</Link>
 											<p>{comment.content}</p>
 											<p className={styles.createdDate}>{createdDate}</p>
 											{comment.updatedAt !== comment.createdAt && (
@@ -130,7 +136,7 @@ export default function Posts() {
 			<div className={styles.pageContainer}>
 				{hasPrevious && (
 					<Link to={`/posts?page=${currentPage - 1}`}>
-						<button>Previous</button>
+						<button className={styles.previousBtn}>Previous</button>
 					</Link>
 				)}
 				<p>
@@ -138,7 +144,7 @@ export default function Posts() {
 				</p>
 				{hasNext && (
 					<Link to={`/posts?page=${currentPage + 1}`}>
-						<button style={{ marginLeft: "0.5rem" }}>Next</button>
+						<button className={styles.nextBtn}>Next</button>
 					</Link>
 				)}
 			</div>

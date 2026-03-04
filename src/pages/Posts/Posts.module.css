@@ -112,6 +112,11 @@
 	background-color: var(--white);
 }
 
+.postContainer a {
+	text-decoration: none;
+	color: var(--blue);
+}
+
 .postDetailLink {
 	align-self: center;
 }
