@@ -64,6 +64,7 @@ export default function Header() {
 						</NavLink>
 						<NavLink
 							to="/posts"
+							end
 							className={({ isActive }) =>
 								isActive ? styles.active : undefined
 							}

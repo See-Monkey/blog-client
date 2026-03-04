@@ -4,6 +4,7 @@ import { useAuth } from "../../context/useAuth.js";
 import { getPublicPosts } from "../../api/posts.js";
 import styles from "./Posts.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
+import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function Posts() {
 	const [posts, setPosts] = useState([]);
@@ -68,7 +69,10 @@ export default function Posts() {
 						</div>
 
 						<div className={styles.commentsContainer}>
-							<h4 className={styles.commentHeader}>Comments</h4>
+							<h4 className={styles.commentHeader}>
+								Comments{" "}
+								{post._count.comments > 0 ? `(${post._count.comments})` : ""}
+							</h4>
 
 							{post.comments.length === 0 && !isAuthenticated && (
 								<p className={styles.noComments}>
@@ -86,14 +90,27 @@ export default function Posts() {
 							{post.comments.map((comment) => {
 								const createdDate = formatDateTime(comment.createdAt);
 								const editedDate = formatDateTime(comment.updatedAt);
+								const username = comment.author.firstname
+									? `${comment.author.firstname} ${comment.author.lastname}`
+									: comment.author.username.split("@")[0];
 
 								return (
 									<div key={comment.id} className={styles.commentContainer}>
-										<p>{comment.content}</p>
-										<p className={styles.createdDate}>{createdDate}</p>
-										{comment.updatedAt !== comment.createdAt && (
-											<p className={styles.editedDate}>Edited: {editedDate}</p>
-										)}
+										<img
+											src={comment.author.avatarUrl || defaultAvatar}
+											alt="avatar"
+											className={styles.avatar}
+										/>
+										<div className={styles.commentContentContainer}>
+											<h4>{username}</h4>
+											<p>{comment.content}</p>
+											<p className={styles.createdDate}>{createdDate}</p>
+											{comment.updatedAt !== comment.createdAt && (
+												<p className={styles.editedDate}>
+													Edited: {editedDate}
+												</p>
+											)}
+										</div>
 									</div>
 								);
 							})}
