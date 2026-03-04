@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
+import { useAuth } from "../../context/useAuth.js";
 import { getPublicPosts } from "../../api/posts.js";
 import styles from "./Posts.module.css";
+import formatDateTime from "../../functions/formatDateTime.js";
 
 export default function Posts() {
 	const [posts, setPosts] = useState([]);
@@ -12,6 +14,8 @@ export default function Posts() {
 
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
+
+	const { isAuthenticated } = useAuth();
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -41,35 +45,70 @@ export default function Posts() {
 
 	return (
 		<section className={styles.postsSection}>
-			<h3 className={styles.pageNumHeader}>
-				Page {currentPage} of {totalPages}
-			</h3>
+			{currentPage > 1 && (
+				<h3 className={styles.pageNumHeader}>
+					Page {currentPage} of {totalPages}
+				</h3>
+			)}
 
-			{posts.map((post) => (
-				<div key={post.id} className={styles.postContainer}>
-					<h2 className={styles.postTitle}>{post.title}</h2>
+			{posts.map((post) => {
+				const createdDate = formatDateTime(post.createdAt);
+				const editedDate = formatDateTime(post.updatedAt);
 
-					<div className={styles.postContentContainer}>
-						<p className={styles.postContent}>{post.content}</p>
-						<p className={styles.createdDate}>Created: </p>
-						<p className={styles.editedDate}>Edited: </p>
+				return (
+					<div key={post.id} className={styles.postContainer}>
+						<h2 className={styles.postTitle}>{post.title}</h2>
+
+						<div className={styles.postContentContainer}>
+							<p className={styles.postContent}>{post.content}</p>
+							<p className={styles.createdDate}>{createdDate}</p>
+							{post.updatedAt !== post.createdAt && (
+								<p className={styles.editedDate}>Edited: {editedDate}</p>
+							)}
+						</div>
+
+						<div className={styles.commentsContainer}>
+							<h4 className={styles.commentHeader}>Comments</h4>
+
+							{post.comments.length === 0 && !isAuthenticated && (
+								<p className={styles.noComments}>
+									This post does not have any comments yet. Login to be the
+									first!
+								</p>
+							)}
+
+							{post.comments.length === 0 && isAuthenticated && (
+								<p className={styles.noComments}>
+									This post does not have any comments yet. Be the first!
+								</p>
+							)}
+
+							{post.comments.map((comment) => {
+								const createdDate = formatDateTime(comment.createdAt);
+								const editedDate = formatDateTime(comment.updatedAt);
+
+								return (
+									<div key={comment.id} className={styles.commentContainer}>
+										<p>{comment.content}</p>
+										<p className={styles.createdDate}>{createdDate}</p>
+										{comment.updatedAt !== comment.createdAt && (
+											<p className={styles.editedDate}>Edited: {editedDate}</p>
+										)}
+									</div>
+								);
+							})}
+
+							{
+								// is authenticated, form to submit comment to this post
+							}
+						</div>
+
+						<Link to={`/posts/${post.slug}`} className={styles.postDetailLink}>
+							<button className={styles.postDetailBtn}>Show More</button>
+						</Link>
 					</div>
-
-					<h4>Comments</h4>
-
-					<div className={styles.commentsContainer}>
-						{post.comments.map((comment) => (
-							<div key={comment.id} className={styles.commentContainer}>
-								<p>{comment.content}</p>
-							</div>
-						))}
-					</div>
-
-					<Link to={`/posts/${post.slug}`}>
-						<button>Show More</button>
-					</Link>
-				</div>
-			))}
+				);
+			})}
 
 			<div className={styles.pageContainer}>
 				{hasPrevious && (
