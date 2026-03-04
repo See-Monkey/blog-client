@@ -81,6 +81,16 @@ export default function Header() {
 								Dashboard
 							</NavLink>
 						)}
+						{isAuthenticated && (
+							<NavLink
+								to="/account"
+								className={({ isActive }) =>
+									isActive ? styles.active : undefined
+								}
+							>
+								Account
+							</NavLink>
+						)}
 					</nav>
 				</div>
 			</div>
