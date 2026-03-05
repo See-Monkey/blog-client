@@ -41,6 +41,7 @@
 
 .postTitle {
 	color: var(--blue);
+	margin-bottom: 14px;
 }
 
 .postContentContainer {
@@ -116,7 +117,6 @@
 .avatar {
 	height: 70px;
 	width: 70px;
-	padding: 8px;
 	border: 1px solid var(--slate);
 	border-radius: 3px;
 	background-color: var(--white);

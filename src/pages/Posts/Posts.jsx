@@ -113,12 +113,11 @@ export default function Posts() {
 							{post.comments.map((comment) => {
 								const createdDate = formatDateTime(comment.createdAt);
 								const editedDate = formatDateTime(comment.updatedAt);
+								const commentIsTruncated = comment.content.length > MAX_COMMENT;
 
 								const username = comment.author.firstname
-									? `${comment.author.firstname} ${comment.author.lastname}`
+									? `${comment.author.firstname} ${comment.author.lastname ? comment.author.lastname : ""}`
 									: comment.author.username.split("@")[0];
-
-								const commentIsTruncated = comment.content.length > MAX_COMMENT;
 
 								return (
 									<div key={comment.id} className={styles.commentContainer}>
