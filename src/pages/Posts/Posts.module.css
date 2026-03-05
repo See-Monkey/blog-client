@@ -24,7 +24,7 @@
 }
 
 .postContainer {
-	width: 96%;
+	width: 94%;
 	padding: 20px;
 	border-left: 4px solid var(--teal);
 	border-top: 2px solid var(--emerald);
@@ -71,6 +71,7 @@
 .postTruncatedLink {
 	align-self: center;
 	padding-bottom: 20px;
+	display: none;
 }
 
 .postTruncatedBtn {
@@ -158,4 +159,25 @@
 	color: var(--platinum);
 	box-shadow: 2px 2px 3px var(--iron);
 	cursor: pointer;
+}
+
+.postDetailBtn,
+.postTruncatedBtn.active,
+.previousBtn,
+.nextBtn {
+	transform-origin: center;
+	transition: transform 0.25s ease-out;
+}
+
+.postDetailBtn:hover,
+.postTruncatedBtn.active:hover,
+.previousBtn:hover,
+.nextBtn:hover {
+	background-color: var(--emerald);
+	color: var(--black);
+
+	transform: scale(1.05);
+	transition:
+		transform 0.12s ease-out,
+		background-color 0.12s ease-out;
 }

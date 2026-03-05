@@ -82,7 +82,7 @@ export default function Posts() {
 						{/* Button only visible if post is truncated */}
 						<Link
 							to={`/posts/${post.slug}`}
-							className={styles.postTruncatedLink}
+							className={`${styles.postTruncatedLink} ${postIsTruncated ? styles.active : ""}`}
 						>
 							<button
 								className={`${styles.postTruncatedBtn} ${postIsTruncated ? styles.active : ""}`}
