@@ -1,0 +1,125 @@
+.postDetailSection {
+	flex: 1;
+	max-width: 1400px;
+	padding: 12px;
+	font-family: "Roboto", sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+
+	padding: 50px 0;
+	color: var(--black);
+}
+
+.postContainer {
+	width: 94%;
+	padding: 20px;
+	border-left: 4px solid var(--teal);
+	border-top: 2px solid var(--emerald);
+	border-radius: 10px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 28px;
+
+	background-image: linear-gradient(var(--steel), var(--aluminum));
+	box-shadow: 2px 2px 5px var(--iron);
+}
+
+.postTitle {
+	color: var(--blue);
+	margin-bottom: 14px;
+}
+
+.postContentContainer {
+	align-self: center;
+	width: 96%;
+	padding: 20px;
+	border-radius: 6px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-image: linear-gradient(var(--white), var(--platinum));
+	box-shadow: -1px -1px 3px var(--emerald);
+}
+
+.postContent {
+	padding-bottom: 20px;
+}
+
+.createdDate,
+.editedDate {
+	align-self: flex-end;
+	color: var(--iron);
+	font-size: 13px;
+}
+
+.postTruncatedLink {
+	align-self: center;
+	padding-bottom: 20px;
+	display: none;
+}
+
+.postTruncatedBtn {
+	display: none;
+}
+
+.adminControls {
+	align-self: center;
+}
+
+.commentsContainer {
+	align-self: center;
+	width: 96%;
+	padding: 20px;
+	border-radius: 6px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-image: linear-gradient(var(--platinum), var(--silver));
+	box-shadow: -1px -1px 3px var(--emerald);
+}
+
+.commentHeader {
+	padding-bottom: 20px;
+}
+
+.noComments {
+	color: var(--iron);
+	align-self: center;
+}
+
+.commentContainer {
+	padding: 10px 0;
+	border-top: 1px solid var(--slate);
+	display: flex;
+	gap: 10px;
+}
+
+.commentContentContainer {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	align-items: flex-start;
+}
+
+.avatar {
+	height: 70px;
+	width: 70px;
+	border: 1px solid var(--slate);
+	border-radius: 3px;
+	background-color: var(--white);
+}
+
+.pageContainer {
+	align-self: center;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}

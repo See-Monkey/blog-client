@@ -36,8 +36,10 @@ export const deletePost = (postId) =>
 	});
 
 // Get comments by post
-export const getCommentsByPost = (slug) => apiFetch(`/posts/${slug}/comments`);
-
+export const getCommentsByPost = ({ slug, page = 1, limit = 10 }) => {
+	const query = new URLSearchParams({ page, limit }).toString();
+	return apiFetch(`/posts/${slug}/comments?${query}`);
+};
 // Submit comment on post
 export const createComment = (slug, data) =>
 	apiFetch(`/posts/${slug}/comments`, {
