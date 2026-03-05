@@ -67,6 +67,15 @@
 	font-size: 13px;
 }
 
+.postTruncatedLink {
+	align-self: center;
+	padding-bottom: 20px;
+}
+
+.postTruncatedBtn {
+	display: none;
+}
+
 .commentsContainer {
 	align-self: center;
 	width: 96%;
@@ -122,7 +131,12 @@
 	align-self: center;
 }
 
-.postDetailBtn {
+.active {
+	display: block;
+}
+
+.postDetailBtn,
+.postTruncatedBtn.active {
 	margin-top: 12px;
 	height: 40px;
 	padding: 0 30px;

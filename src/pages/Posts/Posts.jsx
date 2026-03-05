@@ -4,6 +4,7 @@ import { useAuth } from "../../context/useAuth.js";
 import { getPublicPosts } from "../../api/posts.js";
 import styles from "./Posts.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
+import truncateAtWord from "../../functions/truncateAtWord.js";
 import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function Posts() {
@@ -44,6 +45,9 @@ export default function Posts() {
 	const hasPrevious = currentPage > 1;
 	const hasNext = currentPage < totalPages;
 
+	const MAX_POST = 1000;
+	const MAX_COMMENT = 300;
+
 	return (
 		<section className={styles.postsSection}>
 			{currentPage > 1 && (
@@ -55,6 +59,7 @@ export default function Posts() {
 			{posts.map((post) => {
 				const createdDate = formatDateTime(post.createdAt);
 				const editedDate = formatDateTime(post.updatedAt);
+				const postIsTruncated = post.content.length > MAX_POST;
 
 				return (
 					<div key={post.id} className={styles.postContainer}>
@@ -63,12 +68,28 @@ export default function Posts() {
 						</Link>
 
 						<div className={styles.postContentContainer}>
-							<p className={styles.postContent}>{post.content}</p>
+							<p className={styles.postContent}>
+								{postIsTruncated
+									? truncateAtWord(post.content, MAX_POST)
+									: post.content}
+							</p>
 							<p className={styles.createdDate}>{createdDate}</p>
 							{post.updatedAt !== post.createdAt && (
 								<p className={styles.editedDate}>Edited: {editedDate}</p>
 							)}
 						</div>
+
+						{/* Button only visible if post is truncated */}
+						<Link
+							to={`/posts/${post.slug}`}
+							className={styles.postTruncatedLink}
+						>
+							<button
+								className={`${styles.postTruncatedBtn} ${postIsTruncated ? styles.active : ""}`}
+							>
+								Show More
+							</button>
+						</Link>
 
 						<div className={styles.commentsContainer}>
 							<h4 className={styles.commentHeader}>
@@ -92,9 +113,12 @@ export default function Posts() {
 							{post.comments.map((comment) => {
 								const createdDate = formatDateTime(comment.createdAt);
 								const editedDate = formatDateTime(comment.updatedAt);
+
 								const username = comment.author.firstname
 									? `${comment.author.firstname} ${comment.author.lastname}`
 									: comment.author.username.split("@")[0];
+
+								const commentIsTruncated = comment.content.length > MAX_COMMENT;
 
 								return (
 									<div key={comment.id} className={styles.commentContainer}>
@@ -109,7 +133,11 @@ export default function Posts() {
 											<Link to={`/users/${comment.author.id}`}>
 												<h4>{username}</h4>
 											</Link>
-											<p>{comment.content}</p>
+											<p>
+												{commentIsTruncated
+													? truncateAtWord(comment.content, MAX_COMMENT)
+													: comment.content}
+											</p>
 											<p className={styles.createdDate}>{createdDate}</p>
 											{comment.updatedAt !== comment.createdAt && (
 												<p className={styles.editedDate}>
