@@ -68,8 +68,6 @@ export default function PostDetail() {
 	if (error) return <p>Error: {error}</p>;
 	if (!post) return <p>Post not found</p>;
 
-	console.log(comments);
-
 	const hasPrevious = currentPage > 1;
 	const hasNext = currentPage < totalPages;
 
@@ -86,6 +84,7 @@ export default function PostDetail() {
 			<div className={styles.postContainer}>
 				<h2 className={styles.postTitle}>{post.title}</h2>
 
+				{/* Post content */}
 				<div className={styles.postContentContainer}>
 					<p className={styles.postContent}>{post.content}</p>
 					<p className={styles.createdDate}>{createdDate}</p>
@@ -94,9 +93,17 @@ export default function PostDetail() {
 					)}
 				</div>
 
+				{/* Admin controls */}
 				{isAdmin && (
 					<div className={styles.adminControls}>
 						<button onClick={handleDelete}>Delete</button>
+					</div>
+				)}
+
+				{/* Submit comment */}
+				{isAuthenticated && (
+					<div className={styles.submitCommentContainer}>
+						<h4 className={styles.commentHeader}>Submit Comment</h4>
 					</div>
 				)}
 

@@ -17,7 +17,7 @@
 	width: 94%;
 	padding: 20px;
 	border-left: 4px solid var(--teal);
-	border-top: 2px solid var(--emerald);
+	border-top: 2px solid var(--teal);
 	border-radius: 10px;
 
 	display: flex;
@@ -25,7 +25,7 @@
 	align-items: flex-start;
 	gap: 28px;
 
-	background-image: linear-gradient(var(--steel), var(--aluminum));
+	background-image: linear-gradient(var(--emerald), var(--green));
 	box-shadow: 2px 2px 5px var(--iron);
 }
 
@@ -44,7 +44,7 @@
 	flex-direction: column;
 
 	background-image: linear-gradient(var(--white), var(--platinum));
-	box-shadow: -1px -1px 3px var(--emerald);
+	box-shadow: -1px -1px 3px var(--orange);
 }
 
 .postContent {
@@ -58,14 +58,17 @@
 	font-size: 13px;
 }
 
-.postTruncatedLink {
+.submitCommentContainer {
 	align-self: center;
-	padding-bottom: 20px;
-	display: none;
-}
+	width: 96%;
+	padding: 20px;
+	border-radius: 6px;
 
-.postTruncatedBtn {
-	display: none;
+	display: flex;
+	flex-direction: column;
+
+	background-image: linear-gradient(var(--white), var(--platinum));
+	box-shadow: -1px -1px 3px var(--cerulean);
 }
 
 .adminControls {
@@ -82,7 +85,7 @@
 	flex-direction: column;
 
 	background-image: linear-gradient(var(--platinum), var(--silver));
-	box-shadow: -1px -1px 3px var(--emerald);
+	box-shadow: -1px -1px 3px var(--orange);
 }
 
 .commentHeader {
