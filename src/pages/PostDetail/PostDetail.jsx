@@ -135,10 +135,16 @@ export default function PostDetail() {
 				{/* Admin controls */}
 				{isAdmin && (
 					<div className={styles.adminControls}>
-						<button onClick={handleTogglePublish}>
+						<button
+							onClick={handleTogglePublish}
+							className={styles.publishToggleBtn}
+						>
 							{post.published ? "Unpublish Post" : "Publish Post"}
 						</button>
-						<button onClick={handleDelete}>Delete</button>
+						<button className={styles.editBtn}>Edit</button>
+						<button onClick={handleDelete} className={styles.deleteBtn}>
+							Delete
+						</button>
 					</div>
 				)}
 
