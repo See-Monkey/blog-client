@@ -5,6 +5,7 @@ import { getPublicPosts, createComment } from "../../api/posts.js";
 import styles from "./Posts.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
 import truncateAtWord from "../../functions/truncateAtWord.js";
+import displayName from "../../functions/displayName.js";
 import defaultAvatar from "../../icons/comment-account.svg";
 import sendIcon from "../../icons/send.svg";
 
@@ -174,9 +175,11 @@ export default function Posts() {
 								const editedDate = formatDateTime(comment.updatedAt);
 								const commentIsTruncated = comment.content.length > MAX_COMMENT;
 
-								const username = comment.author.firstname
-									? `${comment.author.firstname} ${comment.author.lastname ? comment.author.lastname : ""}`
-									: comment.author.username.split("@")[0];
+								const username = displayName(
+									comment.author.firstname,
+									comment.author.lastname,
+									comment.author.username,
+								);
 
 								return (
 									<div key={comment.id} className={styles.commentContainer}>

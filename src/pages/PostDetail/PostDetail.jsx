@@ -10,6 +10,7 @@ import {
 } from "../../api/posts";
 import styles from "./PostDetail.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
+import displayName from "../../functions/displayName.js";
 import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function PostDetail() {
@@ -207,9 +208,11 @@ export default function PostDetail() {
 						const createdDate = formatDateTime(comment.createdAt);
 						const editedDate = formatDateTime(comment.updatedAt);
 
-						const username = comment.author.firstname
-							? `${comment.author.firstname} ${comment.author.lastname ? comment.author.lastname : ""}`
-							: comment.author.username.split("@")[0];
+						const username = displayName(
+							comment.author.firstname,
+							comment.author.lastname,
+							comment.author.username,
+						);
 
 						if (commentLoading) return <p>Loading...</p>;
 
