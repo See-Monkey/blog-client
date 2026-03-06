@@ -28,6 +28,7 @@ export default function PostDetail() {
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
 
+	// Get post
 	useEffect(() => {
 		const fetchPost = async () => {
 			try {
@@ -44,6 +45,7 @@ export default function PostDetail() {
 		setCurrentPage(1);
 	}, [slug]);
 
+	// Get post comments
 	useEffect(() => {
 		const fetchComments = async () => {
 			try {
@@ -110,18 +112,19 @@ export default function PostDetail() {
 				<div className={styles.commentsContainer}>
 					<h4 className={styles.commentHeader}>Comments {`(${totalCount})`}</h4>
 
+					{/* If no comments on post */}
 					{comments.length === 0 && !isAuthenticated && (
 						<p className={styles.noComments}>
 							This post does not have any comments yet. Login to be the first!
 						</p>
 					)}
-
 					{comments.length === 0 && isAuthenticated && (
 						<p className={styles.noComments}>
 							This post does not have any comments yet. Be the first!
 						</p>
 					)}
 
+					{/* Map over post comments */}
 					{comments.map((comment) => {
 						const createdDate = formatDateTime(comment.createdAt);
 						const editedDate = formatDateTime(comment.updatedAt);
@@ -142,7 +145,10 @@ export default function PostDetail() {
 									/>
 								</Link>
 								<div className={styles.commentContentContainer}>
-									<Link to={`/users/${comment.author.id}`}>
+									<Link
+										to={`/users/${comment.author.id}`}
+										className={styles.username}
+									>
 										<h4>{username}</h4>
 									</Link>
 									<p>{comment.content}</p>
@@ -155,7 +161,8 @@ export default function PostDetail() {
 						);
 					})}
 
-					{totalPages !== 0 && (
+					{/* Comment page controls */}
+					{totalPages > 1 && (
 						<div className={styles.pageContainer}>
 							{hasPrevious && (
 								<Link to={`/posts/${slug}?page=${currentPage - 1}`}>
@@ -172,10 +179,6 @@ export default function PostDetail() {
 							)}
 						</div>
 					)}
-
-					{
-						// is authenticated, form to submit comment to this post
-					}
 				</div>
 			</div>
 		</section>

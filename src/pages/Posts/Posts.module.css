@@ -14,20 +14,21 @@
 }
 
 .pageNumHeader {
-	color: var(--carbon);
+	color: var(--silver);
 }
 
 .pageContainer {
 	display: flex;
 	align-items: center;
 	gap: 12px;
+	color: var(--platinum);
 }
 
 .postContainer {
 	width: 94%;
 	padding: 20px;
 	border-left: 4px solid var(--teal);
-	border-top: 2px solid var(--emerald);
+	border-top: 2px solid var(--yellow);
 	border-radius: 10px;
 
 	display: flex;
@@ -35,8 +36,8 @@
 	align-items: flex-start;
 	gap: 8px;
 
-	background-image: linear-gradient(var(--steel), var(--aluminum));
-	box-shadow: 2px 2px 5px var(--iron);
+	background-image: linear-gradient(var(--emerald), var(--aluminum));
+	box-shadow: 2px 2px 5px var(--white);
 }
 
 .postTitle {
@@ -58,7 +59,7 @@
 }
 
 .postContent {
-	padding-bottom: 20px;
+	padding: 20px;
 }
 
 .createdDate,
@@ -93,6 +94,7 @@
 
 .commentHeader {
 	padding-bottom: 20px;
+	color: var(--blue);
 }
 
 .noComments {
@@ -157,7 +159,7 @@
 	border: 1px solid var(--emerald);
 	background-color: var(--teal);
 	color: var(--platinum);
-	box-shadow: 2px 2px 3px var(--iron);
+	box-shadow: 2px 2px 3px var(--cerulean);
 	cursor: pointer;
 }
 

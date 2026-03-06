@@ -54,6 +54,7 @@
 .logoEnd {
 	font-family: "Gochi Hand", cursive;
 	color: var(--black);
+	text-shadow: 0px 0px 3px var(--silver);
 }
 
 .logoFront {
