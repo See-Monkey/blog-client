@@ -1,13 +1,13 @@
 .postsSection {
 	flex: 1;
-	max-width: 1400px;
+	max-width: 1200px;
 	padding: 12px;
 	font-family: "Roboto", sans-serif;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 30px;
+	gap: 50px;
 
 	padding: 50px 0;
 	color: var(--black);
