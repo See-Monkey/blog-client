@@ -132,6 +132,7 @@
 	border: 2px solid var(--teal);
 	border-radius: 25px;
 	background-color: var(--teal);
+	box-shadow: 2px 2px 3px var(--carbon);
 
 	position: relative;
 	right: 40px;
