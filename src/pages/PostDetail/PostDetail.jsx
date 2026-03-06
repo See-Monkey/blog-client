@@ -5,6 +5,7 @@ import {
 	deletePost,
 	getPublicPostBySlug,
 	getCommentsByPost,
+	createComment,
 } from "../../api/posts";
 import styles from "./PostDetail.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
@@ -27,6 +28,9 @@ export default function PostDetail() {
 
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
+
+	const [commentText, setCommentText] = useState("");
+	const [submitError, setSubmitError] = useState(null);
 
 	// Get post
 	useEffect(() => {
@@ -78,6 +82,26 @@ export default function PostDetail() {
 		navigate("/posts");
 	};
 
+	const handleSubmitComment = async () => {
+		try {
+			setSubmitError(null);
+
+			await createComment(slug, { content: commentText });
+
+			setCommentText("");
+
+			// reload comments (simplest approach)
+			const data = await getCommentsByPost({ slug, page: 1, limit: 10 });
+
+			setComments(data.comments);
+			setTotalPages(data.totalPages);
+			setCurrentPage(data.currentPage);
+			setTotalCount(data.totalCount);
+		} catch (err) {
+			setSubmitError(err.message);
+		}
+	};
+
 	const createdDate = formatDateTime(post.createdAt);
 	const editedDate = formatDateTime(post.updatedAt);
 
@@ -106,6 +130,23 @@ export default function PostDetail() {
 				{isAuthenticated && (
 					<div className={styles.submitCommentContainer}>
 						<h4 className={styles.commentHeader}>Submit Comment</h4>
+
+						<textarea
+							value={commentText}
+							onChange={(e) => setCommentText(e.target.value)}
+							placeholder="Write your comment..."
+							rows={4}
+							className={styles.commentTextArea}
+						/>
+
+						<button
+							onClick={handleSubmitComment}
+							className={styles.submitCommentBtn}
+						>
+							Submit
+						</button>
+
+						{submitError && <p>Error: {submitError}</p>}
 					</div>
 				)}
 
