@@ -11,8 +11,11 @@ export const getPublicPosts = (params = {}) => {
 export const getPublicPostBySlug = (slug) => apiFetch(`/posts/${slug}`);
 
 // Get all posts (admin)
-export const getAllPostsAdmin = () => apiFetch("/posts/admin");
-
+export const getAllPostsAdmin = (params = {}) => {
+	const query = new URLSearchParams(params).toString();
+	const endpoint = query ? `/posts/admin?${query}` : "/posts/admin";
+	return apiFetch(endpoint);
+};
 // Get any post by ID (admin)
 export const getPostByIdAdmin = (postId) => apiFetch(`/posts/admin/${postId}`);
 

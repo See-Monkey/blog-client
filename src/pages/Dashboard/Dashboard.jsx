@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams, useNavigate } from "react-router";
+import { useRef, useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router";
 import { getAnalytics } from "../../api/analytics.js";
+import { getAllPostsAdmin } from "../../api/posts.js";
 import PostEditor from "../../components/PostEditor/PostEditor.jsx";
 import styles from "./Dashboard.module.css";
+import formatDateTime from "../../functions/formatDateTime.js";
 
 export default function Dashboard() {
 	const [analytics, setAnalytics] = useState(null);
+	const [posts, setPosts] = useState([]);
 
 	const [totalPages, setTotalPages] = useState(1);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [totalCount, setTotalCount] = useState(0);
 
 	const [analyticsLoading, setAnalyticsLoading] = useState(true);
 	const [postLoading, setPostLoading] = useState(true);
@@ -17,6 +19,17 @@ export default function Dashboard() {
 
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
+
+	const postsHeaderRef = useRef(null);
+
+	const scrollToPostsHeader = () => {
+		if (postsHeaderRef.current) {
+			postsHeaderRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		}
+	};
 
 	// Get post
 	useEffect(() => {
@@ -32,7 +45,32 @@ export default function Dashboard() {
 		};
 
 		fetchAnalytics();
-	}, [analytics]);
+	}, []);
+
+	useEffect(() => {
+		const fetchPosts = async () => {
+			try {
+				setPostLoading(true);
+
+				const data = await getAllPostsAdmin({ page, limit: 5 });
+
+				setPosts(data.posts);
+				setTotalPages(data.totalPages);
+				setCurrentPage(data.currentPage);
+			} catch (err) {
+				setError(err.message);
+			} finally {
+				setPostLoading(false);
+			}
+		};
+
+		fetchPosts();
+	}, [page]);
+
+	if (error) return <p>Error: {error}</p>;
+
+	const hasPrevious = currentPage > 1;
+	const hasNext = currentPage < totalPages;
 
 	return (
 		<section className={styles.dashboardSection}>
@@ -66,12 +104,89 @@ export default function Dashboard() {
 				)}
 			</div>
 
+			<Link to="/users">
+				<button className={styles.usersListBtn}>User List</button>
+			</Link>
+
 			<div className={styles.postEditorContainer}>
 				<PostEditor />
 			</div>
 
-			<div className={styles.postsContainer}>
-				<h2 className={styles.postsHeader}>All Posts</h2>
+			<div className={styles.postsSection}>
+				<h2 ref={postsHeaderRef} className={styles.postsHeader}>
+					All Posts
+				</h2>
+
+				{postLoading ? (
+					<p className={styles.postLoading}>Loading...</p>
+				) : (
+					<div className={styles.postsContainer}>
+						{currentPage > 1 && (
+							<h3 className={styles.pageNumHeader}>
+								Page {currentPage} of {totalPages}
+							</h3>
+						)}
+
+						{posts.map((post) => {
+							const createdDate = formatDateTime(post.createdAt);
+							const editedDate = formatDateTime(post.updatedAt);
+
+							return (
+								<div key={post.id} className={styles.postContainer}>
+									<h2 className={styles.postTitle}>{post.title}</h2>
+
+									<div className={styles.postContentContainer}>
+										<p className={styles.postContent}>{post.content}</p>
+										<p className={styles.createdDate}>{createdDate}</p>
+										{post.updatedAt !== post.createdAt && (
+											<p className={styles.editedDate}>Edited: {editedDate}</p>
+										)}
+									</div>
+								</div>
+							);
+						})}
+
+						<div className={styles.pageContainer}>
+							{hasPrevious && (
+								<Link to={`/dashboard?page=${currentPage - 1}`}>
+									<button
+										className={styles.previousBtn}
+										onClick={() => {
+											scrollToPostsHeader();
+											window.history.pushState(
+												null,
+												"",
+												`/dashboard?page=${currentPage - 1}`,
+											);
+										}}
+									>
+										Previous
+									</button>
+								</Link>
+							)}
+							<p>
+								Page {currentPage} of {totalPages}
+							</p>
+							{hasNext && (
+								<Link to={`/dashboard?page=${currentPage + 1}`}>
+									<button
+										className={styles.nextBtn}
+										onClick={() => {
+											scrollToPostsHeader();
+											window.history.pushState(
+												null,
+												"",
+												`/dashboard?page=${currentPage + 1}`,
+											);
+										}}
+									>
+										Next
+									</button>
+								</Link>
+							)}
+						</div>
+					</div>
+				)}
 			</div>
 		</section>
 	);

@@ -209,10 +209,6 @@ export default function Posts() {
 									</div>
 								);
 							})}
-
-							{
-								// is authenticated, form to submit comment to this post
-							}
 						</div>
 
 						<Link to={`/posts/${post.slug}`} className={styles.postDetailLink}>
