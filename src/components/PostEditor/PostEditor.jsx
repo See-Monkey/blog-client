@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createPost } from "../../api/posts";
+import styles from "./PostEditor.module.css";
 
 export default function PostEditor() {
 	const [title, setTitle] = useState("");
@@ -35,10 +36,10 @@ export default function PostEditor() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h2>Create Post</h2>
+		<form onSubmit={handleSubmit} className={styles.postEditorForm}>
+			<h2 className={styles.postEditorHeader}>Create Post</h2>
 
-			<div>
+			<div className={styles.titleContainer}>
 				<label>Title</label>
 				<input
 					type="text"
@@ -48,7 +49,7 @@ export default function PostEditor() {
 				/>
 			</div>
 
-			<div>
+			<div className={styles.contentContainer}>
 				<label>Content</label>
 				<textarea
 					value={content}
@@ -58,18 +59,19 @@ export default function PostEditor() {
 				/>
 			</div>
 
-			<div>
+			<div className={styles.publishedContainer}>
 				<label>
 					<input
 						type="checkbox"
 						checked={published}
 						onChange={(e) => setPublished(e.target.checked)}
+						className={styles.publishedCheckbox}
 					/>
 					Published
 				</label>
 			</div>
 
-			<button type="submit" disabled={loading}>
+			<button type="submit" disabled={loading} className={styles.submitBtn}>
 				{loading ? "Creating..." : "Create Post"}
 			</button>
 
