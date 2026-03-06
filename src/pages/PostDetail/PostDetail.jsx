@@ -6,6 +6,7 @@ import {
 	getPublicPostBySlug,
 	getCommentsByPost,
 	createComment,
+	updatePost,
 } from "../../api/posts";
 import styles from "./PostDetail.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
@@ -102,6 +103,18 @@ export default function PostDetail() {
 		}
 	};
 
+	const handleTogglePublish = async () => {
+		try {
+			const updatedPost = await updatePost(post.id, {
+				published: !post.published,
+			});
+
+			setPost(updatedPost);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const createdDate = formatDateTime(post.createdAt);
 	const editedDate = formatDateTime(post.updatedAt);
 
@@ -122,6 +135,9 @@ export default function PostDetail() {
 				{/* Admin controls */}
 				{isAdmin && (
 					<div className={styles.adminControls}>
+						<button onClick={handleTogglePublish}>
+							{post.published ? "Unpublish Post" : "Publish Post"}
+						</button>
 						<button onClick={handleDelete}>Delete</button>
 					</div>
 				)}

@@ -80,6 +80,9 @@
 	align-self: stretch;
 	margin: 0 30px;
 	resize: none;
+	padding: 12px;
+	border-radius: 5px;
+	border: 1px solid var(--aluminum);
 }
 
 .submitCommentBtn {
@@ -127,6 +130,7 @@
 .noComments {
 	color: var(--iron);
 	align-self: center;
+	margin-bottom: 20px;
 }
 
 .commentContainer {
