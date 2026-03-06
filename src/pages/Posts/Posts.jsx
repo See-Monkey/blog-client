@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { useAuth } from "../../context/useAuth.js";
-import { getPublicPosts } from "../../api/posts.js";
+import { getPublicPosts, createComment } from "../../api/posts.js";
 import styles from "./Posts.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
 import truncateAtWord from "../../functions/truncateAtWord.js";
 import defaultAvatar from "../../icons/comment-account.svg";
+import sendIcon from "../../icons/send.svg";
 
 export default function Posts() {
 	const [posts, setPosts] = useState([]);
@@ -16,6 +17,9 @@ export default function Posts() {
 
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
+
+	const [commentText, setCommentText] = useState({});
+	const [submitError, setSubmitError] = useState({});
 
 	const { isAuthenticated } = useAuth();
 
@@ -38,6 +42,28 @@ export default function Posts() {
 
 		fetchPosts();
 	}, [page]);
+
+	const handleSubmitComment = async (postId, slug) => {
+		try {
+			await createComment(slug, { content: commentText[postId] });
+
+			setCommentText((prev) => ({
+				...prev,
+				[postId]: "",
+			}));
+
+			const data = await getPublicPosts({ page, limit: 5 });
+
+			setPosts(data.posts);
+			setTotalPages(data.totalPages);
+			setCurrentPage(data.currentPage);
+		} catch (err) {
+			setSubmitError((prev) => ({
+				...prev,
+				[postId]: err.message,
+			}));
+		}
+	};
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error}</p>;
@@ -108,6 +134,39 @@ export default function Posts() {
 								<p className={styles.noComments}>
 									This post does not have any comments yet. Be the first!
 								</p>
+							)}
+
+							{/* Submit comment */}
+							{isAuthenticated && (
+								<div className={styles.submitCommentContainer}>
+									<h4 className={styles.submitCommentHeader}>Submit Comment</h4>
+
+									<textarea
+										value={commentText[post.id] || ""}
+										onChange={(e) =>
+											setCommentText((prev) => ({
+												...prev,
+												[post.id]: e.target.value,
+											}))
+										}
+										placeholder="Write your comment..."
+										rows={4}
+										className={styles.commentTextArea}
+									/>
+
+									<button
+										onClick={() => handleSubmitComment(post.id, post.slug)}
+										className={styles.submitCommentBtn}
+									>
+										<img
+											src={sendIcon}
+											alt="send"
+											className={styles.sendIcon}
+										/>
+									</button>
+
+									{submitError[post.id] && <p>Error: {submitError[post.id]}</p>}
+								</div>
 							)}
 
 							{post.comments.map((comment) => {

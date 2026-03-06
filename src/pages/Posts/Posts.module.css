@@ -97,9 +97,56 @@
 	color: var(--blue);
 }
 
+.submitCommentHeader {
+	color: var(--blue);
+	padding-left: 20px;
+	padding-bottom: 10px;
+}
+
 .noComments {
 	color: var(--iron);
 	align-self: center;
+}
+
+.submitCommentContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.commentTextArea {
+	align-self: stretch;
+	margin: 0 30px;
+	resize: none;
+}
+
+.submitCommentBtn {
+	height: 50px;
+	width: 50px;
+	align-self: flex-end;
+	padding: 10px;
+	border: 2px solid var(--teal);
+	border-radius: 25px;
+	background-color: var(--teal);
+
+	position: relative;
+	right: 40px;
+	bottom: 20px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	transform-origin: center;
+	transition: transform 0.25s ease-out;
+}
+
+.sendIcon {
+	height: 30px;
+	width: 30px;
+	background-color: none;
+	margin-left: 5px;
+	filter: invert(1);
 }
 
 .commentContainer {
@@ -166,7 +213,8 @@
 .postDetailBtn,
 .postTruncatedBtn.active,
 .previousBtn,
-.nextBtn {
+.nextBtn,
+.submitCommentBtn {
 	transform-origin: center;
 	transition: transform 0.25s ease-out;
 }
@@ -174,9 +222,9 @@
 .postDetailBtn:hover,
 .postTruncatedBtn.active:hover,
 .previousBtn:hover,
-.nextBtn:hover {
-	background-color: var(--emerald);
-	color: var(--black);
+.nextBtn:hover,
+.submitCommentBtn:hover {
+	background-color: var(--cerulean);
 
 	transform: scale(1.05);
 	transition:
