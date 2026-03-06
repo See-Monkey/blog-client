@@ -33,6 +33,8 @@ export default function PostDetail() {
 	const [commentText, setCommentText] = useState("");
 	const [submitError, setSubmitError] = useState(null);
 
+	const [showConfirm, setShowConfirm] = useState(false);
+
 	// Get post
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -78,9 +80,17 @@ export default function PostDetail() {
 	const hasPrevious = currentPage > 1;
 	const hasNext = currentPage < totalPages;
 
-	const handleDelete = async () => {
+	const handleDelete = () => {
+		setShowConfirm(true);
+	};
+
+	const confirmDelete = async () => {
 		await deletePost(post.id);
 		navigate("/posts");
+	};
+
+	const cancelDelete = () => {
+		setShowConfirm(false);
 	};
 
 	const handleSubmitComment = async () => {
@@ -91,7 +101,6 @@ export default function PostDetail() {
 
 			setCommentText("");
 
-			// reload comments (simplest approach)
 			const data = await getCommentsByPost({ slug, page: 1, limit: 10 });
 
 			setComments(data.comments);
@@ -113,6 +122,10 @@ export default function PostDetail() {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	const handleEdit = () => {
+		navigate(`/posts/${post.id}/edit`);
 	};
 
 	const createdDate = formatDateTime(post.createdAt);
@@ -141,7 +154,9 @@ export default function PostDetail() {
 						>
 							{post.published ? "Unpublish Post" : "Publish Post"}
 						</button>
-						<button className={styles.editBtn}>Edit</button>
+						<button onClick={handleEdit} className={styles.editBtn}>
+							Edit
+						</button>
 						<button onClick={handleDelete} className={styles.deleteBtn}>
 							Delete
 						</button>
@@ -244,6 +259,20 @@ export default function PostDetail() {
 					)}
 				</div>
 			</div>
+
+			{/* Confirm post delete modal */}
+			{showConfirm && (
+				<div className={styles.modalOverlay}>
+					<div className={styles.modal}>
+						<p>Are you sure you want to delete this post?</p>
+
+						<div className={styles.deleteModalButtons}>
+							<button onClick={confirmDelete}>Yes, Delete</button>
+							<button onClick={cancelDelete}>Cancel</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</section>
 	);
 }

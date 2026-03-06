@@ -10,6 +10,7 @@ import UserProfile from "../pages/UserProfile/UserProfile.jsx";
 import Account from "../pages/Account/Account.jsx";
 import Dashboard from "../pages/Dashboard/Dashboard.jsx";
 import UsersList from "../pages/UsersList/UsersList.jsx";
+import EditPost from "../pages/EditPost/EditPost.jsx";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
@@ -40,6 +41,14 @@ const router = createBrowserRouter([
 				element: (
 					<ProtectedRoute requireAdmin>
 						<UsersList />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: "posts/:postId/edit",
+				element: (
+					<ProtectedRoute requireAdmin>
+						<EditPost />
 					</ProtectedRoute>
 				),
 			},
