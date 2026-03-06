@@ -9,11 +9,13 @@
 
 .postEditorForm label {
 	font-size: 18px;
-	font-weight: 400;
+	font-weight: 500;
+	color: var(--blue);
 }
 
 .postEditorHeader {
 	align-self: flex-start;
+	color: var(--blue);
 }
 
 .titleContainer,
@@ -31,6 +33,13 @@
 .contentContainer textarea {
 	resize: none;
 	padding: 6px 12px;
+}
+
+.titleContainer input,
+.contentContainer textarea {
+	background-color: var(--white);
+	border: 1px solid var(--steel);
+	border-radius: 4px;
 }
 
 .publishedContainer label {
