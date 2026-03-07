@@ -1,0 +1,9 @@
+.registerSection {
+	align-self: stretch;
+	width: 100%;
+	max-width: 1200px;
+	background-image: url("../../images/simone-millward-63jNOgMAa0g-unsplash.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}

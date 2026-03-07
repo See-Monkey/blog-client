@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/useAuth.js";
 import { useNavigate } from "react-router";
+import styles from "./Register.module.css";
 
 export default function Register() {
 	const { register } = useAuth();
@@ -34,36 +35,33 @@ export default function Register() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h2>Register</h2>
-
-			{error && <p>{error}</p>}
-
-			<input
-				name="username"
-				type="email"
-				placeholder="Email"
-				value={form.username}
-				onChange={handleChange}
-			/>
-
-			<input
-				name="password"
-				type="password"
-				placeholder="Password"
-				value={form.password}
-				onChange={handleChange}
-			/>
-
-			<input
-				name="confirmPassword"
-				type="password"
-				placeholder="Confirm Password"
-				value={form.confirmPassword}
-				onChange={handleChange}
-			/>
-
-			<button type="submit">Register</button>
-		</form>
+		<section className={styles.registerSection}>
+			<form onSubmit={handleSubmit}>
+				<h2>Register</h2>
+				{error && <p>{error}</p>}
+				<input
+					name="username"
+					type="email"
+					placeholder="Email"
+					value={form.username}
+					onChange={handleChange}
+				/>
+				<input
+					name="password"
+					type="password"
+					placeholder="Password"
+					value={form.password}
+					onChange={handleChange}
+				/>
+				<input
+					name="confirmPassword"
+					type="password"
+					placeholder="Confirm Password"
+					value={form.confirmPassword}
+					onChange={handleChange}
+				/>
+				<button type="submit">Register</button>
+			</form>
+		</section>
 	);
 }

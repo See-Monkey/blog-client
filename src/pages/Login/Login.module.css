@@ -1,0 +1,9 @@
+.loginSection {
+	align-self: stretch;
+	width: 100%;
+	max-width: 1200px;
+	background-image: url("../../images/pavan-kumar-nagendla-11MUC-vzDsI-unsplash.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}

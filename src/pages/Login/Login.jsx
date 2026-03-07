@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/useAuth.js";
 import { useNavigate } from "react-router";
+import styles from "./Login.module.css";
 
 export default function Login() {
 	const { login } = useAuth();
@@ -33,28 +34,26 @@ export default function Login() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h2>Login</h2>
-
-			{error && <p>{error}</p>}
-
-			<input
-				name="username"
-				type="email"
-				placeholder="Email"
-				value={form.username}
-				onChange={handleChange}
-			/>
-
-			<input
-				name="password"
-				type="password"
-				placeholder="Password"
-				value={form.password}
-				onChange={handleChange}
-			/>
-
-			<button type="submit">Login</button>
-		</form>
+		<section className={styles.loginSection}>
+			<form onSubmit={handleSubmit}>
+				<h2>Login</h2>
+				{error && <p>{error}</p>}
+				<input
+					name="username"
+					type="email"
+					placeholder="Email"
+					value={form.username}
+					onChange={handleChange}
+				/>
+				<input
+					name="password"
+					type="password"
+					placeholder="Password"
+					value={form.password}
+					onChange={handleChange}
+				/>
+				<button type="submit">Login</button>
+			</form>
+		</section>
 	);
 }
