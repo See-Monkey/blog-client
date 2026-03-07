@@ -80,12 +80,23 @@ export default function Dashboard() {
 	};
 
 	const confirmDelete = async () => {
-		await deletePost(showConfirm);
-		navigate("/dashboard");
-	};
+		if (!showConfirm) return;
 
+		try {
+			await deletePost(showConfirm);
+
+			// Remove post locally
+			setPosts((prev) => prev.filter((p) => p.id !== showConfirm));
+
+			// Close modal
+			setShowConfirm(null);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 	const cancelDelete = () => {
 		setShowConfirm(null);
+		fetchPosts();
 	};
 
 	const handleTogglePublish = async (postId, published) => {
