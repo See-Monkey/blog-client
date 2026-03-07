@@ -95,7 +95,7 @@ export default function UserProfile() {
 			</div>
 
 			<div className={styles.commentsContainer}>
-				<h2>Comments</h2>
+				<h2>Comments {!commentLoading ? `(${totalCount})` : ""}</h2>
 
 				{isAuthenticated ? (
 					<>
