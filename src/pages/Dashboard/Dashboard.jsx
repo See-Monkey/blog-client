@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { Link, useSearchParams, useNavigate } from "react-router";
 import { getAnalytics } from "../../api/analytics.js";
-import { getAllPostsAdmin } from "../../api/posts.js";
+import { getAllPostsAdmin, deletePost, updatePost } from "../../api/posts.js";
 import PostEditor from "../../components/PostEditor/PostEditor.jsx";
 import styles from "./Dashboard.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
@@ -17,6 +17,7 @@ export default function Dashboard() {
 	const [postLoading, setPostLoading] = useState(true);
 	const [error, setError] = useState(null);
 
+	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
 
@@ -30,6 +31,8 @@ export default function Dashboard() {
 			});
 		}
 	};
+
+	const [showConfirm, setShowConfirm] = useState(null);
 
 	// Get post
 	useEffect(() => {
@@ -71,6 +74,35 @@ export default function Dashboard() {
 
 	const hasPrevious = currentPage > 1;
 	const hasNext = currentPage < totalPages;
+
+	const handleDelete = (postId) => {
+		setShowConfirm(postId);
+	};
+
+	const confirmDelete = async () => {
+		await deletePost(showConfirm);
+		navigate("/dashboard");
+	};
+
+	const cancelDelete = () => {
+		setShowConfirm(null);
+	};
+
+	const handleTogglePublish = async (postId, published) => {
+		try {
+			const updatedPost = await updatePost(postId, {
+				published: !published,
+			});
+
+			setPosts((prev) => prev.map((p) => (p.id === postId ? updatedPost : p)));
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const handleEdit = (postId) => {
+		navigate(`/posts/${postId}/edit`);
+	};
 
 	return (
 		<section className={styles.dashboardSection}>
@@ -137,10 +169,38 @@ export default function Dashboard() {
 
 									<div className={styles.postContentContainer}>
 										<p className={styles.postContent}>{post.content}</p>
+										<p
+											className={styles.postPublished}
+										>{`Published: ${post.published ? "Yes" : "No"}`}</p>
 										<p className={styles.createdDate}>{createdDate}</p>
 										{post.updatedAt !== post.createdAt && (
 											<p className={styles.editedDate}>Edited: {editedDate}</p>
 										)}
+									</div>
+
+									<div className={styles.adminControls}>
+										<button
+											onClick={() =>
+												handleTogglePublish(post.id, post.published)
+											}
+											className={styles.publishToggleBtn}
+										>
+											{post.published ? "Unpublish Post" : "Publish Post"}
+										</button>
+
+										<button
+											onClick={() => handleEdit(post.id)}
+											className={styles.editBtn}
+										>
+											Edit
+										</button>
+
+										<button
+											onClick={() => handleDelete(post.id)}
+											className={styles.deleteBtn}
+										>
+											Delete
+										</button>
 									</div>
 								</div>
 							);
@@ -188,6 +248,20 @@ export default function Dashboard() {
 					</div>
 				)}
 			</div>
+
+			{/* Confirm post delete modal */}
+			{showConfirm && (
+				<div className={styles.modalOverlay}>
+					<div className={styles.modal}>
+						<p>Are you sure you want to delete this post?</p>
+
+						<div className={styles.deleteModalButtons}>
+							<button onClick={confirmDelete}>Yes, Delete</button>
+							<button onClick={cancelDelete}>Cancel</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</section>
 	);
 }
