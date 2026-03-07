@@ -101,11 +101,11 @@ export default function Dashboard() {
 
 	const handleTogglePublish = async (postId, published) => {
 		try {
-			const updatedPost = await updatePost(postId, {
+			await updatePost(postId, {
 				published: !published,
 			});
 
-			setPosts((prev) => prev.map((p) => (p.id === postId ? updatedPost : p)));
+			fetchPosts();
 		} catch (err) {
 			console.error(err);
 		}
