@@ -9,6 +9,9 @@ export default function Register() {
 
 	const [form, setForm] = useState({
 		username: "",
+		firstname: "",
+		lastname: "",
+		avatarUrl: "",
 		password: "",
 		confirmPassword: "",
 	});
@@ -36,31 +39,74 @@ export default function Register() {
 
 	return (
 		<section className={styles.registerSection}>
-			<form onSubmit={handleSubmit}>
-				<h2>Register</h2>
+			<form onSubmit={handleSubmit} className={styles.registerForm}>
+				<h2 className={styles.registerHeader}>Register</h2>
 				{error && <p>{error}</p>}
-				<input
-					name="username"
-					type="email"
-					placeholder="Email"
-					value={form.username}
-					onChange={handleChange}
-				/>
-				<input
-					name="password"
-					type="password"
-					placeholder="Password"
-					value={form.password}
-					onChange={handleChange}
-				/>
-				<input
-					name="confirmPassword"
-					type="password"
-					placeholder="Confirm Password"
-					value={form.confirmPassword}
-					onChange={handleChange}
-				/>
-				<button type="submit">Register</button>
+				<label>
+					Email Address:
+					<input
+						name="username"
+						type="email"
+						value={form.username}
+						onChange={handleChange}
+						required
+					/>
+				</label>
+
+				<label>
+					First Name:
+					<input
+						name="firstname"
+						type="string"
+						value={form.firstname}
+						onChange={handleChange}
+					/>
+				</label>
+
+				<label>
+					Last Name:
+					<input
+						name="lastname"
+						type="string"
+						value={form.lastname}
+						onChange={handleChange}
+					/>
+				</label>
+
+				<label>
+					Avatar URL:
+					<input
+						name="avatarUrl"
+						type="string"
+						value={form.avatarUrl}
+						onChange={handleChange}
+					/>
+				</label>
+
+				<label>
+					Password:
+					<input
+						name="password"
+						type="password"
+						value={form.password}
+						onChange={handleChange}
+						required
+					/>
+				</label>
+
+				<label>
+					Confirm Password:
+					<input
+						name="confirmPassword"
+						type="password"
+						value={form.confirmPassword}
+						onChange={handleChange}
+						required
+					/>
+				</label>
+				<button type="submit" className={styles.registerBtn}>
+					Register
+				</button>
 			</form>
 		</section>
 	);
