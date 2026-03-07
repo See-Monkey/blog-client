@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createPost } from "../../api/posts";
 import styles from "./PostEditor.module.css";
 
-export default function PostEditor() {
+export default function PostEditor({ onPostCreated }) {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [published, setPublished] = useState(false);
@@ -32,6 +32,7 @@ export default function PostEditor() {
 			setError(err.message);
 		} finally {
 			setLoading(false);
+			onPostCreated();
 		}
 	}
 

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router";
 import { getAnalytics } from "../../api/analytics.js";
 import { getAllPostsAdmin, deletePost, updatePost } from "../../api/posts.js";
@@ -50,26 +50,25 @@ export default function Dashboard() {
 		fetchAnalytics();
 	}, [posts]);
 
-	useEffect(() => {
-		const fetchPosts = async () => {
-			try {
-				setPostLoading(true);
+	const fetchPosts = useCallback(async () => {
+		try {
+			setPostLoading(true);
 
-				const data = await getAllPostsAdmin({ page, limit: 5 });
+			const data = await getAllPostsAdmin({ page, limit: 5 });
 
-				setPosts(data.posts);
-				setTotalPages(data.totalPages);
-				setCurrentPage(data.currentPage);
-			} catch (err) {
-				setError(err.message);
-			} finally {
-				setPostLoading(false);
-			}
-		};
-
-		fetchPosts();
-		setCurrentPage(1);
+			setPosts(data.posts);
+			setTotalPages(data.totalPages);
+			setCurrentPage(data.currentPage);
+		} catch (err) {
+			setError(err.message);
+		} finally {
+			setPostLoading(false);
+		}
 	}, [page]);
+
+	useEffect(() => {
+		fetchPosts();
+	}, [fetchPosts]);
 
 	if (error) return <p>Error: {error}</p>;
 
@@ -107,6 +106,7 @@ export default function Dashboard() {
 
 	return (
 		<section className={styles.dashboardSection}>
+			{/* Analytics section */}
 			<div className={styles.analyticsContainer}>
 				<h2 className={styles.analyticsHeader}>Analytics</h2>
 
@@ -141,10 +141,12 @@ export default function Dashboard() {
 				<button className={styles.usersListBtn}>User List</button>
 			</Link>
 
+			{/* Post editor */}
 			<div className={styles.postEditorContainer}>
-				<PostEditor />
+				<PostEditor onPostCreated={fetchPosts} />
 			</div>
 
+			{/* All posts */}
 			<div className={styles.postsSection}>
 				<h2 ref={postsHeaderRef} className={styles.postsHeader}>
 					All Posts
@@ -173,6 +175,9 @@ export default function Dashboard() {
 										<p
 											className={styles.postPublished}
 										>{`Published: ${post.published ? "Yes" : "No"}`}</p>
+										<p
+											className={styles.commentCount}
+										>{`Comments: ${post._count.comments}`}</p>
 										<p className={styles.createdDate}>{createdDate}</p>
 										{post.updatedAt !== post.createdAt && (
 											<p className={styles.editedDate}>Edited: {editedDate}</p>

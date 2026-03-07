@@ -165,7 +165,8 @@
 	padding: 20px;
 }
 
-.postPublished {
+.postPublished,
+.commentCount {
 	align-self: flex-end;
 	color: var(--gunmetal);
 	font-size: 15px;
