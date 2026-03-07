@@ -48,7 +48,7 @@ export default function Dashboard() {
 		};
 
 		fetchAnalytics();
-	}, []);
+	}, [posts]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
