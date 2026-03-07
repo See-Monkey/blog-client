@@ -129,7 +129,7 @@
 .postContainer {
 	width: 94%;
 	padding: 20px;
-	border-left: 4px solid var(--iron);
+	border-left: 4px solid var(--teal);
 	border-top: 2px solid var(--slate);
 	border-radius: 10px;
 
@@ -138,14 +138,14 @@
 	align-items: flex-start;
 	gap: 18px;
 
-	background-image: linear-gradient(var(--gunmetal), var(--slate));
+	background-image: linear-gradient(var(--steel), var(--slate));
 	box-shadow: 2px 2px 5px var(--slate);
 }
 
 .postTitle {
-	color: var(--cerulean);
+	color: var(--carbon);
 	margin-bottom: 14px;
-	text-shadow: 0px 0px 3px var(--black);
+	text-shadow: 0px 0px 3px var(--silver);
 }
 
 .postContentContainer {
@@ -196,7 +196,7 @@
 	border: 1px solid var(--emerald);
 	background-color: var(--teal);
 	color: var(--platinum);
-	box-shadow: 2px 2px 3px var(--cerulean);
+	box-shadow: 2px 2px 3px var(--gunmetal);
 	cursor: pointer;
 
 	transform-origin: center;
