@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams, useNavigate } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 import { useAuth } from "../../context/useAuth.js";
 import { getPublicProfile, getCommentsByUser } from "../../api/users.js";
 import styles from "./UserProfile.module.css";
@@ -8,8 +8,7 @@ import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function UserProfile() {
 	const { userId } = useParams();
-	const { isAuthenticated, isAdmin } = useAuth();
-	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth();
 
 	const [user, setUser] = useState(null);
 	const [comments, setComments] = useState([]);
@@ -47,8 +46,6 @@ export default function UserProfile() {
 				setCommentLoading(true);
 
 				const data = await getCommentsByUser({ userId, page, limit: 10 });
-
-				console.log("API comments:", data);
 
 				setComments(data.comments);
 				setTotalPages(data.totalPages);
@@ -106,8 +103,6 @@ export default function UserProfile() {
 								{comments.map((comment) => {
 									const createdDate = formatDateTime(comment.createdAt);
 									const editedDate = formatDateTime(comment.updatedAt);
-
-									console.log(comments);
 
 									return (
 										<div key={comment.id} className={styles.commentContainer}>
