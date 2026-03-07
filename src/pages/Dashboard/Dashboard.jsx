@@ -68,6 +68,7 @@ export default function Dashboard() {
 		};
 
 		fetchPosts();
+		setCurrentPage(1);
 	}, [page]);
 
 	if (error) return <p>Error: {error}</p>;

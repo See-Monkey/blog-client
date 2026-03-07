@@ -29,5 +29,7 @@ export const deleteUser = (userId) =>
 	});
 
 // Get comments by user
-export const getCommentsByUser = (userId) =>
-	apiFetch(`/users/${userId}/comments`);
+export const getCommentsByUser = ({ userId, page = 1, limit = 10 }) => {
+	const query = new URLSearchParams({ page, limit }).toString();
+	return apiFetch(`/users/${userId}/comments?${query}`);
+};
