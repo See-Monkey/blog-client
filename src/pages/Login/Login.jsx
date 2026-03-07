@@ -35,24 +35,33 @@ export default function Login() {
 
 	return (
 		<section className={styles.loginSection}>
-			<form onSubmit={handleSubmit}>
-				<h2>Login</h2>
+			<form onSubmit={handleSubmit} className={styles.loginForm}>
+				<h2 className={styles.loginHeader}>Login</h2>
 				{error && <p>{error}</p>}
-				<input
-					name="username"
-					type="email"
-					placeholder="Email"
-					value={form.username}
-					onChange={handleChange}
-				/>
-				<input
-					name="password"
-					type="password"
-					placeholder="Password"
-					value={form.password}
-					onChange={handleChange}
-				/>
-				<button type="submit">Login</button>
+				<label>
+					Email Address:
+					<input
+						name="username"
+						type="email"
+						placeholder="Email"
+						value={form.username}
+						onChange={handleChange}
+					/>
+				</label>
+
+				<label>
+					Password:
+					<input
+						name="password"
+						type="password"
+						placeholder="Password"
+						value={form.password}
+						onChange={handleChange}
+					/>
+				</label>
+				<button type="submit" className={styles.loginBtn}>
+					Login
+				</button>
 			</form>
 		</section>
 	);
