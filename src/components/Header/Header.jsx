@@ -1,10 +1,17 @@
 import { useAuth } from "../../context/useAuth.js";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./Header.module.css";
 import logo from "../../images/see-monkey-logo-alpha-black.png";
 
 export default function Header() {
 	const { isAdmin, isAuthenticated, logout } = useAuth();
+
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		logout();
+		navigate("/login");
+	};
 
 	return (
 		<header className={styles.header}>
@@ -26,7 +33,7 @@ export default function Header() {
 					</div>
 					<div className={styles.authContainer}>
 						{isAuthenticated ? (
-							<button onClick={logout} className={styles.logoutBtn}>
+							<button onClick={handleLogout} className={styles.logoutBtn}>
 								Logout
 							</button>
 						) : (
