@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { useAuth } from "../../context/useAuth.js";
 import { getPublicProfile, getCommentsByUser } from "../../api/users.js";
@@ -22,6 +22,17 @@ export default function UserProfile() {
 
 	const [searchParams] = useSearchParams();
 	const page = Number(searchParams.get("page")) || 1;
+
+	const commentsHeaderRef = useRef(null);
+
+	const scrollToCommentsHeader = () => {
+		if (commentsHeaderRef.current) {
+			commentsHeaderRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		}
+	};
 
 	// Get user
 	useEffect(() => {
@@ -92,7 +103,9 @@ export default function UserProfile() {
 			</div>
 
 			<div className={styles.commentsContainer}>
-				<h2>Comments {!commentLoading ? `(${totalCount})` : ""}</h2>
+				<h2 ref={commentsHeaderRef} className={styles.commentHeader}>
+					Comments {!commentLoading ? `(${totalCount})` : ""}
+				</h2>
 
 				{isAuthenticated ? (
 					<>
@@ -107,15 +120,19 @@ export default function UserProfile() {
 									return (
 										<div key={comment.id} className={styles.commentContainer}>
 											<div className={styles.commentContentContainer}>
-												<h4>Post:</h4>
-												<Link
-													to={`/posts/${comment.post.slug}`}
-													className={styles.postLink}
-												>
-													<p>{comment.post.title}</p>
-												</Link>
+												<div className={styles.postLinkContainer}>
+													<h4>Post:</h4>
+													<Link
+														to={`/posts/${comment.post.slug}`}
+														className={styles.postLink}
+													>
+														<p>{comment.post.title}</p>
+													</Link>
+												</div>
 
-												<p>{comment.content}</p>
+												<p className={styles.commentContent}>
+													{comment.content}
+												</p>
 
 												<p className={styles.createdDate}>{createdDate}</p>
 
@@ -133,17 +150,39 @@ export default function UserProfile() {
 									<div className={styles.pageContainer}>
 										{hasPrevious && (
 											<Link to={`/users/${userId}?page=${currentPage - 1}`}>
-												<button className={styles.previousBtn}>Previous</button>
+												<button
+													className={styles.previousBtn}
+													onClick={() => {
+														scrollToCommentsHeader();
+														window.history.pushState(
+															null,
+															"",
+															`/users/${userId}?page=${currentPage - 1}`,
+														);
+													}}
+												>
+													Previous
+												</button>
 											</Link>
 										)}
-
 										<p>
 											Page {currentPage} of {totalPages}
 										</p>
-
 										{hasNext && (
 											<Link to={`/users/${userId}?page=${currentPage + 1}`}>
-												<button className={styles.nextBtn}>Next</button>
+												<button
+													className={styles.nextBtn}
+													onClick={() => {
+														scrollToCommentsHeader();
+														window.history.pushState(
+															null,
+															"",
+															`/users/${userId}?page=${currentPage + 1}`,
+														);
+													}}
+												>
+													Next
+												</button>
 											</Link>
 										)}
 									</div>
