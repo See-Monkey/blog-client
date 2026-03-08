@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { getPostByIdAdmin, updatePost } from "../../api/posts.js";
 import PostEditor from "../../components/PostEditor/PostEditor.jsx";
+import styles from "./EditPost.module.css";
 
 export default function EditPost() {
 	const { postId } = useParams();
@@ -34,5 +35,11 @@ export default function EditPost() {
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error}</p>;
 
-	return <PostEditor initialData={post} onSubmit={handleUpdate} />;
+	return (
+		<section className={styles.editPostSection}>
+			<div className={styles.editPostContainer}>
+				<PostEditor initialData={post} onSubmit={handleUpdate} />
+			</div>
+		</section>
+	);
 }

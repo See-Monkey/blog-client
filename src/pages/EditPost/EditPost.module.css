@@ -1,0 +1,31 @@
+.editPostSection {
+	flex: 1;
+	max-width: 1200px;
+	padding: 12px;
+	font-family: "Roboto", sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+
+	padding: 50px 0;
+	color: var(--black);
+}
+
+.editPostContainer {
+	width: 94%;
+	display: flex;
+	padding: 20px 30px;
+	border-left: 4px solid var(--teal);
+	border-top: 2px solid var(--teal);
+	border-radius: 10px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 28px;
+
+	background-image: linear-gradient(var(--emerald), var(--green));
+	box-shadow: 2px 2px 5px var(--white);
+}
