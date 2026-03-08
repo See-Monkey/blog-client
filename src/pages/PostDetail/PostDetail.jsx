@@ -8,6 +8,7 @@ import {
 	createComment,
 	updatePost,
 } from "../../api/posts";
+import { deleteComment } from "../../api/comments.js";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./PostDetail.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
@@ -16,7 +17,7 @@ import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function PostDetail() {
 	const { slug } = useParams();
-	const { isAuthenticated, isAdmin } = useAuth();
+	const { isAuthenticated, isAdmin, user } = useAuth();
 	const navigate = useNavigate();
 
 	const [post, setPost] = useState(null);
@@ -35,7 +36,7 @@ export default function PostDetail() {
 	const [commentText, setCommentText] = useState("");
 	const [submitError, setSubmitError] = useState(null);
 
-	const [showConfirm, setShowConfirm] = useState(false);
+	const [deleteTarget, setDeleteTarget] = useState(null);
 
 	// Get post
 	useEffect(() => {
@@ -82,17 +83,40 @@ export default function PostDetail() {
 	const hasPrevious = currentPage > 1;
 	const hasNext = currentPage < totalPages;
 
-	const handleDelete = () => {
-		setShowConfirm(true);
+	const handleDeletePost = () => {
+		setDeleteTarget({ type: "post" });
+	};
+
+	const handleDeleteComment = (commentId) => {
+		setDeleteTarget({ type: "comment", id: commentId });
 	};
 
 	const confirmDelete = async () => {
-		await deletePost(post.id);
-		navigate("/posts");
+		try {
+			if (!deleteTarget) return;
+
+			if (deleteTarget.type === "post") {
+				await deletePost(post.id);
+				navigate("/posts");
+				return;
+			}
+
+			if (deleteTarget.type === "comment") {
+				await deleteComment(deleteTarget.id);
+
+				setComments((prev) => prev.filter((c) => c.id !== deleteTarget.id));
+
+				setTotalCount((prev) => prev - 1);
+			}
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setDeleteTarget(null);
+		}
 	};
 
 	const cancelDelete = () => {
-		setShowConfirm(false);
+		setDeleteTarget(null);
 	};
 
 	const handleSubmitComment = async () => {
@@ -159,7 +183,7 @@ export default function PostDetail() {
 						<button onClick={handleEdit} className={styles.editBtn}>
 							Edit
 						</button>
-						<button onClick={handleDelete} className={styles.deleteBtn}>
+						<button onClick={handleDeletePost} className={styles.deleteBtn}>
 							Delete
 						</button>
 					</div>
@@ -205,43 +229,60 @@ export default function PostDetail() {
 					)}
 
 					{/* Map over post comments */}
-					{comments.map((comment) => {
-						const createdDate = formatDateTime(comment.createdAt);
-						const editedDate = formatDateTime(comment.updatedAt);
+					{commentLoading ? (
+						<p>Loading...</p>
+					) : (
+						comments.map((comment) => {
+							const createdDate = formatDateTime(comment.createdAt);
+							const editedDate = formatDateTime(comment.updatedAt);
 
-						const username = displayName(
-							comment.author.firstname,
-							comment.author.lastname,
-							comment.author.username,
-						);
+							const username = displayName(
+								comment.author.firstname,
+								comment.author.lastname,
+								comment.author.username,
+							);
 
-						if (commentLoading) return <p>Loading...</p>;
+							if (commentLoading) return <p>Loading...</p>;
 
-						return (
-							<div key={comment.id} className={styles.commentContainer}>
-								<Link to={`/users/${comment.author.id}`}>
-									<img
-										src={comment.author.avatarUrl || defaultAvatar}
-										alt="avatar"
-										className={styles.avatar}
-									/>
-								</Link>
-								<div className={styles.commentContentContainer}>
-									<Link
-										to={`/users/${comment.author.id}`}
-										className={styles.username}
-									>
-										<h4>{username}</h4>
+							return (
+								<div key={comment.id} className={styles.commentContainer}>
+									<Link to={`/users/${comment.author.id}`}>
+										<img
+											src={comment.author.avatarUrl || defaultAvatar}
+											alt="avatar"
+											className={styles.avatar}
+										/>
 									</Link>
-									<p>{comment.content}</p>
-									<p className={styles.createdDate}>{createdDate}</p>
-									{comment.updatedAt !== comment.createdAt && (
-										<p className={styles.editedDate}>Edited: {editedDate}</p>
-									)}
+
+									<div className={styles.commentContentContainer}>
+										<Link
+											to={`/users/${comment.author.id}`}
+											className={styles.username}
+										>
+											<h4>{username}</h4>
+										</Link>
+
+										<p>{comment.content}</p>
+
+										{user && (comment.author.id === user.id || isAdmin) && (
+											<button
+												onClick={() => handleDeleteComment(comment.id)}
+												className={styles.deleteCommentBtn}
+											>
+												Delete
+											</button>
+										)}
+
+										<p className={styles.createdDate}>{createdDate}</p>
+
+										{comment.updatedAt !== comment.createdAt && (
+											<p className={styles.editedDate}>Edited: {editedDate}</p>
+										)}
+									</div>
 								</div>
-							</div>
-						);
-					})}
+							);
+						})
+					)}
 
 					{/* Comment page controls */}
 					{totalPages > 1 && (
@@ -266,8 +307,12 @@ export default function PostDetail() {
 
 			{/* Confirm post delete modal */}
 			<ConfirmModal
-				isOpen={showConfirm}
-				message="Are you sure you want to delete this post?"
+				isOpen={!!deleteTarget}
+				message={
+					deleteTarget?.type === "comment"
+						? "Are you sure you want to delete this comment?"
+						: "Are you sure you want to delete this post?"
+				}
 				confirmText="Delete"
 				onConfirm={confirmDelete}
 				onCancel={cancelDelete}

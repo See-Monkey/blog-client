@@ -165,7 +165,8 @@
 .nextBtn,
 .publishToggleBtn,
 .editBtn,
-.deleteBtn {
+.deleteBtn,
+.deleteCommentBtn {
 	height: 30px;
 	padding: 0 20px;
 	border-radius: 15px;
@@ -181,9 +182,15 @@
 .nextBtn,
 .publishToggleBtn,
 .editBtn,
-.deleteBtn {
+.deleteBtn,
+.deleteCommentBtn {
 	transform-origin: center;
 	transition: transform 0.25s ease-out;
+}
+
+.deleteCommentBtn {
+	align-self: flex-end;
+	margin: 16px;
 }
 
 .submitCommentBtn:hover,
@@ -200,7 +207,8 @@
 		background-color 0.12s ease-out;
 }
 
-.deleteBtn:hover {
+.deleteBtn:hover,
+.deleteCommentBtn:hover {
 	background-color: var(--red);
 	color: var(--black);
 
