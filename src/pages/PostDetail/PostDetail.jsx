@@ -8,6 +8,7 @@ import {
 	createComment,
 	updatePost,
 } from "../../api/posts";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./PostDetail.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
 import displayName from "../../functions/displayName.js";
@@ -264,18 +265,13 @@ export default function PostDetail() {
 			</div>
 
 			{/* Confirm post delete modal */}
-			{showConfirm && (
-				<div className={styles.modalOverlay}>
-					<div className={styles.modal}>
-						<p>Are you sure you want to delete this post?</p>
-
-						<div className={styles.deleteModalButtons}>
-							<button onClick={confirmDelete}>Yes, Delete</button>
-							<button onClick={cancelDelete}>Cancel</button>
-						</div>
-					</div>
-				</div>
-			)}
+			<ConfirmModal
+				isOpen={showConfirm}
+				message="Are you sure you want to delete this post?"
+				confirmText="Delete"
+				onConfirm={confirmDelete}
+				onCancel={cancelDelete}
+			/>
 		</section>
 	);
 }

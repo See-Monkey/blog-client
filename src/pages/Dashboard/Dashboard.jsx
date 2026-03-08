@@ -3,6 +3,7 @@ import { Link, useSearchParams, useNavigate } from "react-router";
 import { getAnalytics } from "../../api/analytics.js";
 import { getAllPostsAdmin, deletePost, updatePost } from "../../api/posts.js";
 import PostEditor from "../../components/PostEditor/PostEditor.jsx";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./Dashboard.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
 
@@ -267,18 +268,13 @@ export default function Dashboard() {
 			</div>
 
 			{/* Confirm post delete modal */}
-			{showConfirm && (
-				<div className={styles.modalOverlay}>
-					<div className={styles.modal}>
-						<p>Are you sure you want to delete this post?</p>
-
-						<div className={styles.deleteModalButtons}>
-							<button onClick={confirmDelete}>Yes, Delete</button>
-							<button onClick={cancelDelete}>Cancel</button>
-						</div>
-					</div>
-				</div>
-			)}
+			<ConfirmModal
+				isOpen={!!showConfirm}
+				message="Are you sure you want to delete this post?"
+				confirmText="Delete"
+				onConfirm={confirmDelete}
+				onCancel={cancelDelete}
+			/>
 		</section>
 	);
 }
