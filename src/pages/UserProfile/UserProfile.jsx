@@ -1,7 +1,12 @@
 import { useRef, useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router";
+import { Link, useParams, useSearchParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/useAuth.js";
-import { getPublicProfile, getCommentsByUser } from "../../api/users.js";
+import {
+	getPublicProfile,
+	getCommentsByUser,
+	deleteUser,
+} from "../../api/users.js";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./UserProfile.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
 import defaultAvatar from "../../icons/comment-account.svg";
@@ -9,6 +14,7 @@ import defaultAvatar from "../../icons/comment-account.svg";
 export default function UserProfile() {
 	const { userId } = useParams();
 	const { isAuthenticated } = useAuth();
+	const navigate = useNavigate();
 
 	const [user, setUser] = useState(null);
 	const [comments, setComments] = useState([]);
@@ -33,6 +39,8 @@ export default function UserProfile() {
 			});
 		}
 	};
+
+	const [showConfirm, setShowConfirm] = useState(false);
 
 	// Get user
 	useEffect(() => {
@@ -70,6 +78,19 @@ export default function UserProfile() {
 		};
 		fetchComments();
 	}, [userId, page]);
+
+	const handleDelete = () => {
+		setShowConfirm(true);
+	};
+
+	const confirmDelete = async () => {
+		await deleteUser(userId);
+		navigate("/posts");
+	};
+
+	const cancelDelete = () => {
+		setShowConfirm(false);
+	};
 
 	if (userLoading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error}</p>;
@@ -196,6 +217,17 @@ export default function UserProfile() {
 			</div>
 
 			{/* Admin delete user */}
+			<button type="button" onClick={handleDelete} className={styles.deleteBtn}>
+				Delete Account
+			</button>
+
+			<ConfirmModal
+				isOpen={showConfirm}
+				message="Are you sure you want to delete this account?"
+				confirmText="Delete Forever"
+				onConfirm={confirmDelete}
+				onCancel={cancelDelete}
+			/>
 		</section>
 	);
 }
