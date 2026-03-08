@@ -13,7 +13,7 @@ import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function UserProfile() {
 	const { userId } = useParams();
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated, isAdmin } = useAuth();
 	const navigate = useNavigate();
 
 	const [user, setUser] = useState(null);
@@ -224,9 +224,15 @@ export default function UserProfile() {
 			</div>
 
 			{/* Admin delete user */}
-			<button type="button" onClick={handleDelete} className={styles.deleteBtn}>
-				Delete Account
-			</button>
+			{isAdmin && (
+				<button
+					type="button"
+					onClick={handleDelete}
+					className={styles.deleteBtn}
+				>
+					Delete Account
+				</button>
+			)}
 
 			<ConfirmModal
 				isOpen={showConfirm}
