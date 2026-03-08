@@ -8,7 +8,7 @@ import {
 	createComment,
 	updatePost,
 } from "../../api/posts";
-import { deleteComment } from "../../api/comments.js";
+import { deleteComment, updateComment } from "../../api/comments.js";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./PostDetail.module.css";
 import formatDateTime from "../../functions/formatDateTime.js";
@@ -37,6 +37,10 @@ export default function PostDetail() {
 	const [submitError, setSubmitError] = useState(null);
 
 	const [deleteTarget, setDeleteTarget] = useState(null);
+
+	// For inline comment editing
+	const [editingCommentId, setEditingCommentId] = useState(null);
+	const [editedText, setEditedText] = useState("");
 
 	// Get post
 	useEffect(() => {
@@ -154,6 +158,29 @@ export default function PostDetail() {
 		navigate(`/posts/${post.id}/edit`);
 	};
 
+	// Handle inline comment editing
+	const toggleEdit = (commentId, currentContent) => {
+		setEditingCommentId(commentId);
+		setEditedText(currentContent);
+	};
+
+	const handleSubmitEdit = async (commentId) => {
+		try {
+			const updated = await updateComment(commentId, {
+				content: editedText,
+			});
+
+			setComments((prev) =>
+				prev.map((c) => (c.id === commentId ? { ...c, ...updated } : c)),
+			);
+
+			setEditingCommentId(null);
+			setEditedText("");
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const createdDate = formatDateTime(post.createdAt);
 	const editedDate = formatDateTime(post.updatedAt);
 
@@ -262,16 +289,60 @@ export default function PostDetail() {
 											<h4>{username}</h4>
 										</Link>
 
-										<p>{comment.content}</p>
-
-										{user && (comment.author.id === user.id || isAdmin) && (
-											<button
-												onClick={() => handleDeleteComment(comment.id)}
-												className={styles.deleteCommentBtn}
-											>
-												Delete
-											</button>
+										{/* Comment content */}
+										{editingCommentId === comment.id ? (
+											<textarea
+												value={editedText}
+												onChange={(e) => setEditedText(e.target.value)}
+												rows={3}
+												className={styles.commentEditTextArea}
+											/>
+										) : (
+											<p className={styles.commentContent}>{comment.content}</p>
 										)}
+
+										{/* Comment controls */}
+										<div className={styles.commentControls}>
+											{user && comment.author.id === user.id && (
+												<>
+													{editingCommentId === comment.id ? (
+														<button
+															onClick={() => handleSubmitEdit(comment.id)}
+															className={styles.editCommentBtn}
+														>
+															Submit
+														</button>
+													) : (
+														<button
+															onClick={() =>
+																toggleEdit(comment.id, comment.content)
+															}
+															className={styles.editCommentBtn}
+														>
+															Edit
+														</button>
+													)}
+
+													{editingCommentId === comment.id && (
+														<button
+															onClick={() => setEditingCommentId(null)}
+															className={styles.cancelEditBtn}
+														>
+															Cancel
+														</button>
+													)}
+												</>
+											)}
+
+											{user && (comment.author.id === user.id || isAdmin) && (
+												<button
+													onClick={() => handleDeleteComment(comment.id)}
+													className={styles.deleteCommentBtn}
+												>
+													Delete
+												</button>
+											)}
+										</div>
 
 										<p className={styles.createdDate}>{createdDate}</p>
 

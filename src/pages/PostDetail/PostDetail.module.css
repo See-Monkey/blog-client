@@ -141,6 +141,17 @@
 	object-fit: cover;
 }
 
+.commentContent {
+	width: 94%;
+	align-self: center;
+}
+
+.commentEditTextArea {
+	resize: none;
+	width: 94%;
+	align-self: center;
+}
+
 .pageContainer {
 	align-self: center;
 	display: flex;
@@ -161,11 +172,20 @@
 	cursor: pointer;
 }
 
+.commentControls {
+	padding: 16px;
+	align-self: flex-end;
+	display: flex;
+	gap: 12px;
+}
+
 .previousBtn,
 .nextBtn,
 .publishToggleBtn,
 .editBtn,
 .deleteBtn,
+.editCommentBtn,
+.cancelEditBtn,
 .deleteCommentBtn {
 	height: 30px;
 	padding: 0 20px;
@@ -183,21 +203,20 @@
 .publishToggleBtn,
 .editBtn,
 .deleteBtn,
+.editCommentBtn,
+.cancelEditBtn,
 .deleteCommentBtn {
 	transform-origin: center;
 	transition: transform 0.25s ease-out;
-}
-
-.deleteCommentBtn {
-	align-self: flex-end;
-	margin: 16px;
 }
 
 .submitCommentBtn:hover,
 .previousBtn:hover,
 .nextBtn:hover,
 .publishToggleBtn:hover,
-.editBtn:hover {
+.editBtn:hover,
+.editCommentBtn:hover,
+.cancelEditBtn:hover {
 	background-color: var(--cerulean);
 	color: var(--black);
 
