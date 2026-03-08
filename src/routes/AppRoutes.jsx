@@ -27,7 +27,14 @@ const router = createBrowserRouter([
 			{ path: "posts", element: <Posts /> },
 			{ path: "posts/:slug", element: <PostDetail /> },
 			{ path: "users/:userId", element: <UserProfile /> },
-			{ path: "account", element: <Account /> },
+			{
+				path: "account",
+				element: (
+					<ProtectedRoute>
+						<Account />
+					</ProtectedRoute>
+				),
+			},
 			{
 				path: "dashboard",
 				element: (
