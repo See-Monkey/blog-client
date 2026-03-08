@@ -99,6 +99,8 @@ export default function UserProfile() {
 	const hasPrevious = currentPage > 1;
 	const hasNext = currentPage < totalPages;
 
+	const createdDate = formatDateTime(user.createdAt);
+
 	return (
 		<section className={styles.userProfileSection}>
 			<div className={styles.profileContainer}>
@@ -119,6 +121,11 @@ export default function UserProfile() {
 					<div className={styles.rowContainer}>
 						<h3>Last Name:</h3>
 						<p>{user.lastname}</p>
+					</div>
+
+					<div className={styles.rowContainer}>
+						<h3>Account Created:</h3>
+						<p>{createdDate}</p>
 					</div>
 				</div>
 			</div>
