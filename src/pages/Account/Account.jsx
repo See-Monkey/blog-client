@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { getMe, updateMe, changeMyPassword } from "../../api/users";
+import { useNavigate } from "react-router";
+import { getMe, updateMe, changeMyPassword, deleteUser } from "../../api/users";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./Account.module.css";
 import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function Account() {
+	const navigate = useNavigate();
+
 	const [user, setUser] = useState(null);
 
 	const [userLoading, setUserLoading] = useState(true);
@@ -20,6 +24,8 @@ export default function Account() {
 		newPassword: "",
 		confirmPassword: "",
 	});
+
+	const [showConfirm, setShowConfirm] = useState(false);
 
 	// Get account
 	useEffect(() => {
@@ -90,6 +96,19 @@ export default function Account() {
 		} catch (err) {
 			setError(err.message);
 		}
+	};
+
+	const handleDelete = () => {
+		setShowConfirm(true);
+	};
+
+	const confirmDelete = async () => {
+		await deleteUser(user.id);
+		navigate("/posts");
+	};
+
+	const cancelDelete = () => {
+		setShowConfirm(false);
 	};
 
 	if (userLoading) return <p>Loading...</p>;
@@ -183,11 +202,23 @@ export default function Account() {
 
 				<div className={styles.deleteContainer}>
 					<h3 className={styles.formHeader}>Delete My Account</h3>
-					<button type="button" className={styles.deleteBtn}>
+					<button
+						type="button"
+						onClick={handleDelete}
+						className={styles.deleteBtn}
+					>
 						Delete
 					</button>
 				</div>
 			</div>
+
+			<ConfirmModal
+				isOpen={showConfirm}
+				message="Are you sure you want to delete this account?"
+				confirmText="Delete Forever"
+				onConfirm={confirmDelete}
+				onCancel={cancelDelete}
+			/>
 		</section>
 	);
 }
