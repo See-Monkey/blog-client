@@ -1,7 +1,12 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router";
 import { getAnalytics } from "../../api/analytics.js";
-import { getAllPostsAdmin, deletePost, updatePost } from "../../api/posts.js";
+import {
+	getAllPostsAdmin,
+	createPost,
+	deletePost,
+	updatePost,
+} from "../../api/posts.js";
 import PostEditor from "../../components/PostEditor/PostEditor.jsx";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
 import styles from "./Dashboard.module.css";
@@ -155,7 +160,7 @@ export default function Dashboard() {
 
 			{/* Post editor */}
 			<div className={styles.postEditorContainer}>
-				<PostEditor onPostCreated={fetchPosts} />
+				<PostEditor onSubmit={createPost} onPostCreated={fetchPosts} />
 			</div>
 
 			{/* All posts */}

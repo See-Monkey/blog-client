@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { createPost } from "../../api/posts";
+import { useState, useEffect } from "react";
+
 import styles from "./PostEditor.module.css";
 
-export default function PostEditor({ onPostCreated }) {
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
-	const [published, setPublished] = useState(false);
+export default function PostEditor({ initialData, onSubmit, onPostCreated }) {
+	const [title, setTitle] = useState(initialData?.title || "");
+	const [content, setContent] = useState(initialData?.content || "");
+	const [published, setPublished] = useState(initialData?.published || false);
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -18,23 +18,31 @@ export default function PostEditor({ onPostCreated }) {
 		setSuccess(false);
 
 		try {
-			await createPost({
+			await onSubmit({
 				title,
 				content,
 				published,
 			});
 
-			setTitle("");
-			setContent("");
-			setPublished(false);
 			setSuccess(true);
+
+			if (onPostCreated) {
+				onPostCreated();
+			}
 		} catch (err) {
 			setError(err.message);
 		} finally {
 			setLoading(false);
-			onPostCreated();
 		}
 	}
+
+	useEffect(() => {
+		if (initialData) {
+			setTitle(initialData.title || "");
+			setContent(initialData.content || "");
+			setPublished(initialData.published || false);
+		}
+	}, [initialData]);
 
 	return (
 		<form onSubmit={handleSubmit} className={styles.postEditorForm}>
@@ -73,11 +81,11 @@ export default function PostEditor({ onPostCreated }) {
 			</div>
 
 			<button type="submit" disabled={loading} className={styles.submitBtn}>
-				{loading ? "Creating..." : "Create Post"}
+				{loading ? "Loading..." : `${onPostCreated ? "Create Post" : "Submit"}`}
 			</button>
 
 			{error && <p>{error}</p>}
-			{success && <p>Post created successfully.</p>}
+			{success && <p>Post saved successfully.</p>}
 		</form>
 	);
 }
