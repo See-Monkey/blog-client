@@ -138,6 +138,7 @@
 	border: 1px solid var(--slate);
 	border-radius: 3px;
 	background-color: var(--white);
+	object-fit: cover;
 }
 
 .pageContainer {

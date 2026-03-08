@@ -32,6 +32,10 @@
 .avatar {
 	width: 200px;
 	height: 200px;
+	border: 1px solid var(--slate);
+	border-radius: 8px;
+	background-color: var(--white);
+	object-fit: cover;
 }
 
 .profileContentContainer {
