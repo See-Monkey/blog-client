@@ -1,0 +1,74 @@
+.usersListSection {
+	flex: 1;
+	max-width: 1200px;
+	padding: 12px;
+	font-family: "Roboto", sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 50px;
+
+	padding: 50px 0;
+	color: var(--black);
+}
+
+.usersContainer {
+	align-self: center;
+	width: 94%;
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 6px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	background-image: linear-gradient(var(--platinum), var(--silver));
+	box-shadow: -1px -1px 3px var(--orange);
+}
+
+.usersHeader {
+	align-self: center;
+}
+
+.userContainer {
+	width: 94%;
+	padding: 10px 0;
+	border-top: 1px solid var(--slate);
+	display: flex;
+	gap: 30px;
+}
+
+.userContentContainer {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	align-items: flex-start;
+}
+
+.avatar {
+	height: 70px;
+	width: 70px;
+	border: 1px solid var(--slate);
+	border-radius: 3px;
+	background-color: var(--white);
+	object-fit: cover;
+}
+
+.userContainer a {
+	text-decoration: none;
+	color: var(--blue);
+}
+
+.nameContainer {
+	display: flex;
+	gap: 32px;
+}
+
+.createdDate {
+	align-self: flex-end;
+	color: var(--iron);
+	font-size: 13px;
+}
