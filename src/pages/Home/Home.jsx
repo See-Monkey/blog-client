@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import styles from "./Home.module.css";
 
 export default function Home() {
@@ -207,6 +208,10 @@ export default function Home() {
 					</ul>
 				</div>
 			</div>
+
+			<Link to="/posts" className={styles.postsLink}>
+				<button className={styles.postsBtn}>Go To Posts</button>
+			</Link>
 		</section>
 	);
 }
