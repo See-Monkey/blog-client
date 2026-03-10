@@ -13,7 +13,7 @@ import UsersList from "../pages/UsersList/UsersList.jsx";
 import EditPost from "../pages/EditPost/EditPost.jsx";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 
-import ProtectedRoute from "../components/ProtectedRoute.jsx";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
 	{
