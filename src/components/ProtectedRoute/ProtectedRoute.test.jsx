@@ -10,12 +10,6 @@ vi.mock("../../context/useAuth.js", () => ({
 	useAuth: () => useAuthMock(),
 }));
 
-vi.mock("../context/useAuth.js", () => ({
-	useAuth: () => ({
-		isAuthenticated: false,
-	}),
-}));
-
 describe("ProtectedRoute", () => {
 	test("blocks access when unauthenticated", () => {
 		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
@@ -26,5 +20,29 @@ describe("ProtectedRoute", () => {
 		);
 
 		expect(screen.queryByText("Secret")).not.toBeInTheDocument();
+	});
+
+	test("blocks authenticated access when admin required", () => {
+		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: true }));
+		renderWithRouter(
+			<ProtectedRoute requireAdmin>
+				<div>Secret</div>
+			</ProtectedRoute>,
+		);
+
+		expect(screen.queryByText("Secret")).not.toBeInTheDocument();
+	});
+
+	test("allows access when credentials are met", () => {
+		useAuthMock.mockReturnValue(
+			mockAuth({ isAuthenticated: true, isAdmin: true }),
+		);
+		renderWithRouter(
+			<ProtectedRoute requireAdmin>
+				<div>Secret</div>
+			</ProtectedRoute>,
+		);
+
+		expect(screen.queryByText("Secret")).toBeInTheDocument();
 	});
 });

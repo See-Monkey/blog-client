@@ -46,7 +46,9 @@ export default function PostEditor({ initialData, onSubmit, onPostCreated }) {
 
 	return (
 		<form onSubmit={handleSubmit} className={styles.postEditorForm}>
-			<h2 className={styles.postEditorHeader}>Create Post</h2>
+			<h2
+				className={styles.postEditorHeader}
+			>{`${onPostCreated ? "Create Post" : "Edit Post"}`}</h2>
 
 			<div className={styles.titleContainer}>
 				<label>Title</label>
