@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:3000/api";
+// const API_BASE = "http://localhost:3000/api";
+const API_BASE = "https://blog-api-c0f1.onrender.com/api";
 
 export async function apiFetch(endpoint, options = {}) {
 	const token = localStorage.getItem("token");
@@ -14,7 +15,11 @@ export async function apiFetch(endpoint, options = {}) {
 
 	if (!res.ok) {
 		const error = await res.json().catch(() => null);
-		const message = error?.message || "API request failed";
+		const message =
+			error?.message ||
+			error?.errors?.[0]?.msg ||
+			JSON.stringify(error) ||
+			"API request failed";
 		throw new Error(message);
 	}
 
