@@ -7,15 +7,15 @@ import { mockAuth } from "../../tests/mocks/useAuth";
 const useAuthMock = vi.fn();
 
 vi.mock("../../context/useAuth.js", () => ({
-	useAuth: () => useAuthMock(),
+  useAuth: () => useAuthMock(),
 }));
 
 describe("Register Page", () => {
-	test("renders register form", () => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
+  test("renders register form", () => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
 
-		renderWithRouter(<Register />);
+    renderWithRouter(<Register />);
 
-		expect(screen.getByRole("button")).toBeInTheDocument();
-	});
+    expect(screen.getByRole("button")).toBeInTheDocument();
+  });
 });

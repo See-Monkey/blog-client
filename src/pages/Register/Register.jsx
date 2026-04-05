@@ -4,110 +4,110 @@ import { useNavigate } from "react-router";
 import styles from "./Register.module.css";
 
 export default function Register() {
-	const { register } = useAuth();
-	const navigate = useNavigate();
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
-	const [form, setForm] = useState({
-		username: "",
-		firstname: "",
-		lastname: "",
-		avatarUrl: "",
-		password: "",
-		confirmPassword: "",
-	});
+  const [form, setForm] = useState({
+    username: "",
+    firstname: "",
+    lastname: "",
+    avatarUrl: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-	const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
-	function handleChange(e) {
-		setForm({
-			...form,
-			[e.target.name]: e.target.value,
-		});
-	}
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
 
-	async function handleSubmit(e) {
-		e.preventDefault();
-		setError(null);
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError(null);
 
-		try {
-			await register(form);
-			navigate("/");
-		} catch (err) {
-			setError(err.message);
-		}
-	}
+    try {
+      await register(form);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
-	return (
-		<section className={styles.registerSection}>
-			<form onSubmit={handleSubmit} className={styles.registerForm}>
-				<h2 className={styles.registerHeader}>Register</h2>
-				{error && <p>{error}</p>}
-				<label>
-					Email Address:
-					<input
-						name="username"
-						type="email"
-						value={form.username}
-						onChange={handleChange}
-						required
-					/>
-				</label>
+  return (
+    <section className={styles.registerSection}>
+      <form onSubmit={handleSubmit} className={styles.registerForm}>
+        <h2 className={styles.registerHeader}>Register</h2>
+        {error && <p>{error}</p>}
+        <label>
+          Email Address:
+          <input
+            name="username"
+            type="email"
+            value={form.username}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-				<label>
-					First Name:
-					<input
-						name="firstname"
-						type="string"
-						value={form.firstname}
-						onChange={handleChange}
-					/>
-				</label>
+        <label>
+          First Name:
+          <input
+            name="firstname"
+            type="string"
+            value={form.firstname}
+            onChange={handleChange}
+          />
+        </label>
 
-				<label>
-					Last Name:
-					<input
-						name="lastname"
-						type="string"
-						value={form.lastname}
-						onChange={handleChange}
-					/>
-				</label>
+        <label>
+          Last Name:
+          <input
+            name="lastname"
+            type="string"
+            value={form.lastname}
+            onChange={handleChange}
+          />
+        </label>
 
-				<label>
-					Avatar URL:
-					<input
-						name="avatarUrl"
-						type="string"
-						value={form.avatarUrl}
-						onChange={handleChange}
-					/>
-				</label>
+        <label>
+          Avatar URL:
+          <input
+            name="avatarUrl"
+            type="string"
+            value={form.avatarUrl}
+            onChange={handleChange}
+          />
+        </label>
 
-				<label>
-					Password:
-					<input
-						name="password"
-						type="password"
-						value={form.password}
-						onChange={handleChange}
-						required
-					/>
-				</label>
+        <label>
+          Password:
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-				<label>
-					Confirm Password:
-					<input
-						name="confirmPassword"
-						type="password"
-						value={form.confirmPassword}
-						onChange={handleChange}
-						required
-					/>
-				</label>
-				<button type="submit" className={styles.registerBtn}>
-					Register
-				</button>
-			</form>
-		</section>
-	);
+        <label>
+          Confirm Password:
+          <input
+            name="confirmPassword"
+            type="password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <button type="submit" className={styles.registerBtn}>
+          Register
+        </button>
+      </form>
+    </section>
+  );
 }

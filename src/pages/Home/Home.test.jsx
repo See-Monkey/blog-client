@@ -4,9 +4,9 @@ import Home from "./Home";
 import { renderWithRouter } from "../../tests/test-utils";
 
 describe("Home Page", () => {
-	test("renders home page", () => {
-		renderWithRouter(<Home />);
+  test("renders home page", () => {
+    renderWithRouter(<Home />);
 
-		expect(screen.getByText(/welcome/i)).toBeInTheDocument();
-	});
+    expect(screen.getByText(/welcome/i)).toBeInTheDocument();
+  });
 });

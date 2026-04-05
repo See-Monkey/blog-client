@@ -5,11 +5,11 @@ import { renderWithRouter } from "../../tests/test-utils";
 const useAuthMock = vi.fn();
 
 vi.mock("../../context/useAuth.js", () => ({
-	useAuth: () => useAuthMock(),
+  useAuth: () => useAuthMock(),
 }));
 
 describe("UsersList Page", () => {
-	test("renders users list", () => {
-		renderWithRouter(<UsersList />);
-	});
+  test("renders users list", () => {
+    renderWithRouter(<UsersList />);
+  });
 });

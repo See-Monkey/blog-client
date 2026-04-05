@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams, useNavigate } from "react-router";
 import { useAuth } from "../../context/useAuth.js";
 import {
-	deletePost,
-	getPublicPostBySlug,
-	getCommentsByPost,
-	createComment,
-	updatePost,
+  deletePost,
+  getPublicPostBySlug,
+  getCommentsByPost,
+  createComment,
+  updatePost,
 } from "../../api/posts";
 import { deleteComment, updateComment } from "../../api/comments.js";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal.jsx";
@@ -16,378 +16,378 @@ import displayName from "../../functions/displayName.js";
 import defaultAvatar from "../../icons/comment-account.svg";
 
 export default function PostDetail() {
-	const { slug } = useParams();
-	const { isAuthenticated, isAdmin, user } = useAuth();
-	const navigate = useNavigate();
+  const { slug } = useParams();
+  const { isAuthenticated, isAdmin, user } = useAuth();
+  const navigate = useNavigate();
 
-	const [post, setPost] = useState(null);
-	const [comments, setComments] = useState([]);
-	const [totalPages, setTotalPages] = useState(1);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [totalCount, setTotalCount] = useState(0);
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
 
-	const [postLoading, setPostLoading] = useState(true);
-	const [commentLoading, setCommentLoading] = useState(true);
-	const [error, setError] = useState(null);
+  const [postLoading, setPostLoading] = useState(true);
+  const [commentLoading, setCommentLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-	const [searchParams] = useSearchParams();
-	const page = Number(searchParams.get("page")) || 1;
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
 
-	const [commentText, setCommentText] = useState("");
-	const [submitError, setSubmitError] = useState(null);
+  const [commentText, setCommentText] = useState("");
+  const [submitError, setSubmitError] = useState(null);
 
-	const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
-	// For inline comment editing
-	const [editingCommentId, setEditingCommentId] = useState(null);
-	const [editedText, setEditedText] = useState("");
+  // For inline comment editing
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedText, setEditedText] = useState("");
 
-	// Get post
-	useEffect(() => {
-		const fetchPost = async () => {
-			try {
-				const data = await getPublicPostBySlug(slug);
-				setPost(data);
-			} catch (err) {
-				setError(err.message);
-			} finally {
-				setPostLoading(false);
-			}
-		};
+  // Get post
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const data = await getPublicPostBySlug(slug);
+        setPost(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setPostLoading(false);
+      }
+    };
 
-		fetchPost();
-		setCurrentPage(1);
-	}, [slug]);
+    fetchPost();
+    setCurrentPage(1);
+  }, [slug]);
 
-	// Get post comments
-	useEffect(() => {
-		const fetchComments = async () => {
-			try {
-				setCommentLoading(true);
+  // Get post comments
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        setCommentLoading(true);
 
-				const data = await getCommentsByPost({ slug, page, limit: 10 });
+        const data = await getCommentsByPost({ slug, page, limit: 10 });
 
-				setComments(data.comments);
-				setTotalPages(data.totalPages);
-				setCurrentPage(data.currentPage);
-				setTotalCount(data.totalCount);
-			} catch (err) {
-				setError(err.message);
-			} finally {
-				setCommentLoading(false);
-			}
-		};
-		fetchComments();
-	}, [slug, page]);
+        setComments(data.comments);
+        setTotalPages(data.totalPages);
+        setCurrentPage(data.currentPage);
+        setTotalCount(data.totalCount);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setCommentLoading(false);
+      }
+    };
+    fetchComments();
+  }, [slug, page]);
 
-	if (postLoading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error}</p>;
-	if (!post) return <p>Post not found</p>;
+  if (postLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!post) return <p>Post not found</p>;
 
-	const hasPrevious = currentPage > 1;
-	const hasNext = currentPage < totalPages;
+  const hasPrevious = currentPage > 1;
+  const hasNext = currentPage < totalPages;
 
-	const handleDeletePost = () => {
-		setDeleteTarget({ type: "post" });
-	};
+  const handleDeletePost = () => {
+    setDeleteTarget({ type: "post" });
+  };
 
-	const handleDeleteComment = (commentId) => {
-		setDeleteTarget({ type: "comment", id: commentId });
-	};
+  const handleDeleteComment = (commentId) => {
+    setDeleteTarget({ type: "comment", id: commentId });
+  };
 
-	const confirmDelete = async () => {
-		try {
-			if (!deleteTarget) return;
+  const confirmDelete = async () => {
+    try {
+      if (!deleteTarget) return;
 
-			if (deleteTarget.type === "post") {
-				await deletePost(post.id);
-				navigate("/posts");
-				return;
-			}
+      if (deleteTarget.type === "post") {
+        await deletePost(post.id);
+        navigate("/posts");
+        return;
+      }
 
-			if (deleteTarget.type === "comment") {
-				await deleteComment(deleteTarget.id);
+      if (deleteTarget.type === "comment") {
+        await deleteComment(deleteTarget.id);
 
-				setComments((prev) => prev.filter((c) => c.id !== deleteTarget.id));
+        setComments((prev) => prev.filter((c) => c.id !== deleteTarget.id));
 
-				setTotalCount((prev) => prev - 1);
-			}
-		} catch (err) {
-			console.error(err);
-		} finally {
-			setDeleteTarget(null);
-		}
-	};
+        setTotalCount((prev) => prev - 1);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeleteTarget(null);
+    }
+  };
 
-	const cancelDelete = () => {
-		setDeleteTarget(null);
-	};
+  const cancelDelete = () => {
+    setDeleteTarget(null);
+  };
 
-	const handleSubmitComment = async () => {
-		try {
-			setSubmitError(null);
+  const handleSubmitComment = async () => {
+    try {
+      setSubmitError(null);
 
-			await createComment(slug, { content: commentText });
+      await createComment(slug, { content: commentText });
 
-			setCommentText("");
+      setCommentText("");
 
-			const data = await getCommentsByPost({ slug, page: 1, limit: 10 });
+      const data = await getCommentsByPost({ slug, page: 1, limit: 10 });
 
-			setComments(data.comments);
-			setTotalPages(data.totalPages);
-			setCurrentPage(data.currentPage);
-			setTotalCount(data.totalCount);
-		} catch (err) {
-			setSubmitError(err.message);
-		}
-	};
+      setComments(data.comments);
+      setTotalPages(data.totalPages);
+      setCurrentPage(data.currentPage);
+      setTotalCount(data.totalCount);
+    } catch (err) {
+      setSubmitError(err.message);
+    }
+  };
 
-	const handleTogglePublish = async () => {
-		try {
-			const updatedPost = await updatePost(post.id, {
-				published: !post.published,
-			});
+  const handleTogglePublish = async () => {
+    try {
+      const updatedPost = await updatePost(post.id, {
+        published: !post.published,
+      });
 
-			setPost(updatedPost);
-		} catch (err) {
-			console.error(err);
-		}
-	};
+      setPost(updatedPost);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-	const handleEdit = () => {
-		navigate(`/posts/${post.id}/edit`);
-	};
+  const handleEdit = () => {
+    navigate(`/posts/${post.id}/edit`);
+  };
 
-	// Handle inline comment editing
-	const toggleEdit = (commentId, currentContent) => {
-		setEditingCommentId(commentId);
-		setEditedText(currentContent);
-	};
+  // Handle inline comment editing
+  const toggleEdit = (commentId, currentContent) => {
+    setEditingCommentId(commentId);
+    setEditedText(currentContent);
+  };
 
-	const handleSubmitEdit = async (commentId) => {
-		try {
-			const updated = await updateComment(commentId, {
-				content: editedText,
-			});
+  const handleSubmitEdit = async (commentId) => {
+    try {
+      const updated = await updateComment(commentId, {
+        content: editedText,
+      });
 
-			setComments((prev) =>
-				prev.map((c) => (c.id === commentId ? { ...c, ...updated } : c)),
-			);
+      setComments((prev) =>
+        prev.map((c) => (c.id === commentId ? { ...c, ...updated } : c)),
+      );
 
-			setEditingCommentId(null);
-			setEditedText("");
-		} catch (err) {
-			console.error(err);
-		}
-	};
+      setEditingCommentId(null);
+      setEditedText("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-	const createdDate = formatDateTime(post.createdAt);
-	const editedDate = formatDateTime(post.updatedAt);
+  const createdDate = formatDateTime(post.createdAt);
+  const editedDate = formatDateTime(post.updatedAt);
 
-	return (
-		<section className={styles.postDetailSection}>
-			<div className={styles.postContainer}>
-				<h2 className={styles.postTitle}>{post.title}</h2>
+  return (
+    <section className={styles.postDetailSection}>
+      <div className={styles.postContainer}>
+        <h2 className={styles.postTitle}>{post.title}</h2>
 
-				{/* Post content */}
-				<div className={styles.postContentContainer}>
-					<p className={styles.postContent}>{post.content}</p>
-					<p className={styles.createdDate}>{createdDate}</p>
-					{post.updatedAt !== post.createdAt && (
-						<p className={styles.editedDate}>Edited: {editedDate}</p>
-					)}
-				</div>
+        {/* Post content */}
+        <div className={styles.postContentContainer}>
+          <p className={styles.postContent}>{post.content}</p>
+          <p className={styles.createdDate}>{createdDate}</p>
+          {post.updatedAt !== post.createdAt && (
+            <p className={styles.editedDate}>Edited: {editedDate}</p>
+          )}
+        </div>
 
-				{/* Admin controls */}
-				{isAdmin && (
-					<div className={styles.adminControls}>
-						<button
-							onClick={handleTogglePublish}
-							className={styles.publishToggleBtn}
-						>
-							{post.published ? "Unpublish Post" : "Publish Post"}
-						</button>
-						<button onClick={handleEdit} className={styles.editBtn}>
-							Edit
-						</button>
-						<button onClick={handleDeletePost} className={styles.deleteBtn}>
-							Delete
-						</button>
-					</div>
-				)}
+        {/* Admin controls */}
+        {isAdmin && (
+          <div className={styles.adminControls}>
+            <button
+              onClick={handleTogglePublish}
+              className={styles.publishToggleBtn}
+            >
+              {post.published ? "Unpublish Post" : "Publish Post"}
+            </button>
+            <button onClick={handleEdit} className={styles.editBtn}>
+              Edit
+            </button>
+            <button onClick={handleDeletePost} className={styles.deleteBtn}>
+              Delete
+            </button>
+          </div>
+        )}
 
-				{/* Submit comment */}
-				{isAuthenticated && (
-					<div className={styles.submitCommentContainer}>
-						<h4 className={styles.commentHeader}>Submit Comment</h4>
+        {/* Submit comment */}
+        {isAuthenticated && (
+          <div className={styles.submitCommentContainer}>
+            <h4 className={styles.commentHeader}>Submit Comment</h4>
 
-						<textarea
-							value={commentText}
-							onChange={(e) => setCommentText(e.target.value)}
-							placeholder="Write your comment..."
-							rows={4}
-							className={styles.commentTextArea}
-						/>
+            <textarea
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="Write your comment..."
+              rows={4}
+              className={styles.commentTextArea}
+            />
 
-						<button
-							onClick={handleSubmitComment}
-							className={styles.submitCommentBtn}
-						>
-							Submit
-						</button>
+            <button
+              onClick={handleSubmitComment}
+              className={styles.submitCommentBtn}
+            >
+              Submit
+            </button>
 
-						{submitError && <p>Error: {submitError}</p>}
-					</div>
-				)}
+            {submitError && <p>Error: {submitError}</p>}
+          </div>
+        )}
 
-				<div className={styles.commentsContainer}>
-					<h4 className={styles.commentHeader}>Comments {`(${totalCount})`}</h4>
+        <div className={styles.commentsContainer}>
+          <h4 className={styles.commentHeader}>Comments {`(${totalCount})`}</h4>
 
-					{/* If no comments on post */}
-					{comments.length === 0 && !isAuthenticated && (
-						<p className={styles.noComments}>
-							This post does not have any comments yet. Login to be the first!
-						</p>
-					)}
-					{comments.length === 0 && isAuthenticated && (
-						<p className={styles.noComments}>
-							This post does not have any comments yet. Be the first!
-						</p>
-					)}
+          {/* If no comments on post */}
+          {comments.length === 0 && !isAuthenticated && (
+            <p className={styles.noComments}>
+              This post does not have any comments yet. Login to be the first!
+            </p>
+          )}
+          {comments.length === 0 && isAuthenticated && (
+            <p className={styles.noComments}>
+              This post does not have any comments yet. Be the first!
+            </p>
+          )}
 
-					{/* Map over post comments */}
-					{commentLoading ? (
-						<p>Loading...</p>
-					) : (
-						comments.map((comment) => {
-							const createdDate = formatDateTime(comment.createdAt);
-							const editedDate = formatDateTime(comment.updatedAt);
+          {/* Map over post comments */}
+          {commentLoading ? (
+            <p>Loading...</p>
+          ) : (
+            comments.map((comment) => {
+              const createdDate = formatDateTime(comment.createdAt);
+              const editedDate = formatDateTime(comment.updatedAt);
 
-							const username = displayName(
-								comment.author.firstname,
-								comment.author.lastname,
-								comment.author.username,
-							);
+              const username = displayName(
+                comment.author.firstname,
+                comment.author.lastname,
+                comment.author.username,
+              );
 
-							if (commentLoading) return <p>Loading...</p>;
+              if (commentLoading) return <p>Loading...</p>;
 
-							return (
-								<div key={comment.id} className={styles.commentContainer}>
-									<Link to={`/users/${comment.author.id}`}>
-										<img
-											src={comment.author.avatarUrl || defaultAvatar}
-											alt="avatar"
-											className={styles.avatar}
-										/>
-									</Link>
+              return (
+                <div key={comment.id} className={styles.commentContainer}>
+                  <Link to={`/users/${comment.author.id}`}>
+                    <img
+                      src={comment.author.avatarUrl || defaultAvatar}
+                      alt="avatar"
+                      className={styles.avatar}
+                    />
+                  </Link>
 
-									<div className={styles.commentContentContainer}>
-										<Link
-											to={`/users/${comment.author.id}`}
-											className={styles.username}
-										>
-											<h4>{username}</h4>
-										</Link>
+                  <div className={styles.commentContentContainer}>
+                    <Link
+                      to={`/users/${comment.author.id}`}
+                      className={styles.username}
+                    >
+                      <h4>{username}</h4>
+                    </Link>
 
-										{/* Comment content */}
-										{editingCommentId === comment.id ? (
-											<textarea
-												value={editedText}
-												onChange={(e) => setEditedText(e.target.value)}
-												rows={3}
-												className={styles.commentEditTextArea}
-											/>
-										) : (
-											<p className={styles.commentContent}>{comment.content}</p>
-										)}
+                    {/* Comment content */}
+                    {editingCommentId === comment.id ? (
+                      <textarea
+                        value={editedText}
+                        onChange={(e) => setEditedText(e.target.value)}
+                        rows={3}
+                        className={styles.commentEditTextArea}
+                      />
+                    ) : (
+                      <p className={styles.commentContent}>{comment.content}</p>
+                    )}
 
-										{/* Comment controls */}
-										<div className={styles.commentControls}>
-											{user && comment.author.id === user.id && (
-												<>
-													{editingCommentId === comment.id ? (
-														<button
-															onClick={() => handleSubmitEdit(comment.id)}
-															className={styles.editCommentBtn}
-														>
-															Submit
-														</button>
-													) : (
-														<button
-															onClick={() =>
-																toggleEdit(comment.id, comment.content)
-															}
-															className={styles.editCommentBtn}
-														>
-															Edit
-														</button>
-													)}
+                    {/* Comment controls */}
+                    <div className={styles.commentControls}>
+                      {user && comment.author.id === user.id && (
+                        <>
+                          {editingCommentId === comment.id ? (
+                            <button
+                              onClick={() => handleSubmitEdit(comment.id)}
+                              className={styles.editCommentBtn}
+                            >
+                              Submit
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                toggleEdit(comment.id, comment.content)
+                              }
+                              className={styles.editCommentBtn}
+                            >
+                              Edit
+                            </button>
+                          )}
 
-													{editingCommentId === comment.id && (
-														<button
-															onClick={() => setEditingCommentId(null)}
-															className={styles.cancelEditBtn}
-														>
-															Cancel
-														</button>
-													)}
-												</>
-											)}
+                          {editingCommentId === comment.id && (
+                            <button
+                              onClick={() => setEditingCommentId(null)}
+                              className={styles.cancelEditBtn}
+                            >
+                              Cancel
+                            </button>
+                          )}
+                        </>
+                      )}
 
-											{user && (comment.author.id === user.id || isAdmin) && (
-												<button
-													onClick={() => handleDeleteComment(comment.id)}
-													className={styles.deleteCommentBtn}
-												>
-													Delete
-												</button>
-											)}
-										</div>
+                      {user && (comment.author.id === user.id || isAdmin) && (
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className={styles.deleteCommentBtn}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
 
-										<p className={styles.createdDate}>{createdDate}</p>
+                    <p className={styles.createdDate}>{createdDate}</p>
 
-										{comment.updatedAt !== comment.createdAt && (
-											<p className={styles.editedDate}>Edited: {editedDate}</p>
-										)}
-									</div>
-								</div>
-							);
-						})
-					)}
+                    {comment.updatedAt !== comment.createdAt && (
+                      <p className={styles.editedDate}>Edited: {editedDate}</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          )}
 
-					{/* Comment page controls */}
-					{totalPages > 1 && (
-						<div className={styles.pageContainer}>
-							{hasPrevious && (
-								<Link to={`/posts/${slug}?page=${currentPage - 1}`}>
-									<button className={styles.previousBtn}>Previous</button>
-								</Link>
-							)}
-							<p>
-								Page {currentPage} of {totalPages}
-							</p>
-							{hasNext && (
-								<Link to={`/posts/${slug}?page=${currentPage + 1}`}>
-									<button className={styles.nextBtn}>Next</button>
-								</Link>
-							)}
-						</div>
-					)}
-				</div>
-			</div>
+          {/* Comment page controls */}
+          {totalPages > 1 && (
+            <div className={styles.pageContainer}>
+              {hasPrevious && (
+                <Link to={`/posts/${slug}?page=${currentPage - 1}`}>
+                  <button className={styles.previousBtn}>Previous</button>
+                </Link>
+              )}
+              <p>
+                Page {currentPage} of {totalPages}
+              </p>
+              {hasNext && (
+                <Link to={`/posts/${slug}?page=${currentPage + 1}`}>
+                  <button className={styles.nextBtn}>Next</button>
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
 
-			{/* Confirm post delete modal */}
-			<ConfirmModal
-				isOpen={!!deleteTarget}
-				message={
-					deleteTarget?.type === "comment"
-						? "Are you sure you want to delete this comment?"
-						: "Are you sure you want to delete this post?"
-				}
-				confirmText="Delete"
-				onConfirm={confirmDelete}
-				onCancel={cancelDelete}
-			/>
-		</section>
-	);
+      {/* Confirm post delete modal */}
+      <ConfirmModal
+        isOpen={!!deleteTarget}
+        message={
+          deleteTarget?.type === "comment"
+            ? "Are you sure you want to delete this comment?"
+            : "Are you sure you want to delete this post?"
+        }
+        confirmText="Delete"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
+    </section>
+  );
 }

@@ -1,79 +1,79 @@
 .postEditorForm {
-	width: 94%;
-	align-self: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 20px;
+  width: 94%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .postEditorForm label {
-	font-size: 18px;
-	font-weight: 500;
-	color: var(--blue);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--blue);
 }
 
 .postEditorHeader {
-	align-self: flex-start;
-	color: var(--blue);
+  align-self: flex-start;
+  color: var(--blue);
 }
 
 .titleContainer,
 .contentContainer {
-	width: 94%;
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
+  width: 94%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .titleContainer input {
-	padding: 6px 12px;
+  padding: 6px 12px;
 }
 
 .contentContainer textarea {
-	resize: none;
-	padding: 6px 12px;
+  resize: none;
+  padding: 6px 12px;
 }
 
 .titleContainer input,
 .contentContainer textarea {
-	background-color: var(--white);
-	border: 1px solid var(--steel);
-	border-radius: 4px;
+  background-color: var(--white);
+  border: 1px solid var(--steel);
+  border-radius: 4px;
 }
 
 .publishedContainer label {
-	display: flex;
-	gap: 20px;
-	align-items: center;
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .publishedCheckbox {
-	width: 25px;
-	height: 25px;
-	accent-color: var(--blue);
+  width: 25px;
+  height: 25px;
+  accent-color: var(--blue);
 }
 
 .submitBtn {
-	margin-top: 12px;
-	height: 40px;
-	padding: 0 30px;
-	border-radius: 20px;
-	border: 1px solid var(--emerald);
-	background-color: var(--teal);
-	color: var(--platinum);
-	box-shadow: 2px 2px 3px var(--carbon);
-	cursor: pointer;
+  margin-top: 12px;
+  height: 40px;
+  padding: 0 30px;
+  border-radius: 20px;
+  border: 1px solid var(--emerald);
+  background-color: var(--teal);
+  color: var(--platinum);
+  box-shadow: 2px 2px 3px var(--carbon);
+  cursor: pointer;
 
-	transform-origin: center;
-	transition: transform 0.25s ease-out;
+  transform-origin: center;
+  transition: transform 0.25s ease-out;
 }
 
 .submitBtn:hover {
-	background-color: var(--cerulean);
+  background-color: var(--cerulean);
 
-	transform: scale(1.05);
-	transition:
-		transform 0.12s ease-out,
-		background-color 0.12s ease-out;
+  transform: scale(1.05);
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out;
 }

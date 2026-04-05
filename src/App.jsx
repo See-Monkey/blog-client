@@ -4,15 +4,15 @@ import Footer from "./components/Footer/Footer.jsx";
 import "./app.css";
 
 function App() {
-	return (
-		<>
-			<Header />
-			<main>
-				<Outlet />
-			</main>
-			<Footer />
-		</>
-	);
+  return (
+    <>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 export default App;

@@ -6,12 +6,12 @@ import { mockAuth } from "../../tests/mocks/useAuth";
 const useAuthMock = vi.fn();
 
 vi.mock("../../context/useAuth.js", () => ({
-	useAuth: () => useAuthMock(),
+  useAuth: () => useAuthMock(),
 }));
 
 describe("PostDetail Page", () => {
-	test("renders post detail page", () => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
-		renderWithRouter(<PostDetail />);
-	});
+  test("renders post detail page", () => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
+    renderWithRouter(<PostDetail />);
+  });
 });

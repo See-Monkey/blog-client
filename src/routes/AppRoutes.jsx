@@ -16,51 +16,51 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <App />,
-		errorElement: <ErrorPage />,
-		children: [
-			{ index: true, element: <Home /> },
-			{ path: "login", element: <Login /> },
-			{ path: "register", element: <Register /> },
-			{ path: "posts", element: <Posts /> },
-			{ path: "posts/:slug", element: <PostDetail /> },
-			{ path: "users/:userId", element: <UserProfile /> },
-			{
-				path: "account",
-				element: (
-					<ProtectedRoute>
-						<Account />
-					</ProtectedRoute>
-				),
-			},
-			{
-				path: "dashboard",
-				element: (
-					<ProtectedRoute requireAdmin>
-						<Dashboard />
-					</ProtectedRoute>
-				),
-			},
-			{
-				path: "users",
-				element: (
-					<ProtectedRoute requireAdmin>
-						<UsersList />
-					</ProtectedRoute>
-				),
-			},
-			{
-				path: "posts/:postId/edit",
-				element: (
-					<ProtectedRoute requireAdmin>
-						<EditPost />
-					</ProtectedRoute>
-				),
-			},
-		],
-	},
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "posts", element: <Posts /> },
+      { path: "posts/:slug", element: <PostDetail /> },
+      { path: "users/:userId", element: <UserProfile /> },
+      {
+        path: "account",
+        element: (
+          <ProtectedRoute>
+            <Account />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute requireAdmin>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "users",
+        element: (
+          <ProtectedRoute requireAdmin>
+            <UsersList />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "posts/:postId/edit",
+        element: (
+          <ProtectedRoute requireAdmin>
+            <EditPost />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
 ]);
 
 export default router;

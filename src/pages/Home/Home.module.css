@@ -1,125 +1,125 @@
 .homeSection {
-	align-self: stretch;
-	width: 100%;
-	max-width: 1200px;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 20px;
-	padding: 40px 0;
-	font-family: "Roboto", sans-serif;
+  align-self: stretch;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 40px 0;
+  font-family: "Roboto", sans-serif;
 
-	background-image: url("../../images/malmanew-i3TDlwBTVbU-unsplash.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: left center;
+  background-image: url("../../images/malmanew-i3TDlwBTVbU-unsplash.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left center;
 
-	animation: bg-pan linear forwards;
-	animation-timeline: scroll();
-	animation-range: 0% 100%;
+  animation: bg-pan linear forwards;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
 }
 
 @keyframes bg-pan {
-	from {
-		background-position: 40% center;
-	}
-	to {
-		background-position: 60% center;
-	}
+  from {
+    background-position: 40% center;
+  }
+  to {
+    background-position: 60% center;
+  }
 }
 
 .homeHeader {
-	background-image: url("../../images/simone-millward-63jNOgMAa0g-unsplash.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	width: 100%;
-	height: 500px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
+  background-image: url("../../images/simone-millward-63jNOgMAa0g-unsplash.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .homeHeader h1,
 .homeHeader h2 {
-	color: var(--white);
-	text-shadow: 1px 1px 4px var(--carbon);
-	padding: 0 40px;
+  color: var(--white);
+  text-shadow: 1px 1px 4px var(--carbon);
+  padding: 0 40px;
 }
 
 .homeHeader h2 {
-	align-self: flex-end;
+  align-self: flex-end;
 }
 
 .contentContainer:nth-child(even) {
-	align-self: flex-end;
+  align-self: flex-end;
 }
 
 .backendHeader,
 .frontendHeader {
-	align-self: center;
-	background-image: linear-gradient(var(--teal), var(--emerald), var(--green));
-	width: 100%;
-	text-align: center;
-	padding: 20px;
+  align-self: center;
+  background-image: linear-gradient(var(--teal), var(--emerald), var(--green));
+  width: 100%;
+  text-align: center;
+  padding: 20px;
 }
 
 .frontendHeader {
-	align-self: center;
+  align-self: center;
 }
 
 .backendHeader h2,
 .frontendHeader h2 {
-	font-family: "Permanent Marker";
-	font-size: 40px;
+  font-family: "Permanent Marker";
+  font-size: 40px;
 }
 
 .contentContainer {
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	padding: 0 80px;
-	border-radius: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 80px;
+  border-radius: 10px;
 }
 
 .content {
-	background-color: var(--aluminum);
-	padding: 30px 80px;
+  background-color: var(--aluminum);
+  padding: 30px 80px;
 }
 
 .filler {
-	flex: 1;
-	background: rgba(255, 255, 255, 0.2);
-	backdrop-filter: blur(10px);
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .postsLink {
-	align-self: center;
-	margin-top: 24px;
+  align-self: center;
+  margin-top: 24px;
 }
 
 .postsBtn {
-	margin-top: 12px;
-	height: 40px;
-	padding: 0 30px;
-	border-radius: 20px;
-	border: 1px solid var(--emerald);
-	background-color: var(--teal);
-	color: var(--platinum);
-	box-shadow: 2px 2px 3px var(--carbon);
-	cursor: pointer;
+  margin-top: 12px;
+  height: 40px;
+  padding: 0 30px;
+  border-radius: 20px;
+  border: 1px solid var(--emerald);
+  background-color: var(--teal);
+  color: var(--platinum);
+  box-shadow: 2px 2px 3px var(--carbon);
+  cursor: pointer;
 
-	transform-origin: center;
-	transition: transform 0.25s ease-out;
+  transform-origin: center;
+  transition: transform 0.25s ease-out;
 }
 
 .postsBtn:hover {
-	background-color: var(--cerulean);
+  background-color: var(--cerulean);
 
-	transform: scale(1.05);
-	transition:
-		transform 0.12s ease-out,
-		background-color 0.12s ease-out;
+  transform: scale(1.05);
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out;
 }

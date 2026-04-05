@@ -5,16 +5,16 @@ export const getMe = () => apiFetch("/users/me");
 
 // Update account details
 export const updateMe = (data) =>
-	apiFetch("/users/me", {
-		method: "PATCH",
-		body: JSON.stringify(data),
-	});
+  apiFetch("/users/me", {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
 
 export const changeMyPassword = (data) =>
-	apiFetch("/users/me/password", {
-		method: "PATCH",
-		body: JSON.stringify(data),
-	});
+  apiFetch("/users/me/password", {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
 
 // Admin get all users
 export const getAllUsers = () => apiFetch("/users");
@@ -24,12 +24,12 @@ export const getPublicProfile = (userId) => apiFetch(`/users/${userId}`);
 
 // Admin delete user
 export const deleteUser = (userId) =>
-	apiFetch(`/users/${userId}`, {
-		method: "DELETE",
-	});
+  apiFetch(`/users/${userId}`, {
+    method: "DELETE",
+  });
 
 // Get comments by user
 export const getCommentsByUser = ({ userId, page = 1, limit = 10 }) => {
-	const query = new URLSearchParams({ page, limit }).toString();
-	return apiFetch(`/users/${userId}/comments?${query}`);
+  const query = new URLSearchParams({ page, limit }).toString();
+  return apiFetch(`/users/${userId}/comments?${query}`);
 };

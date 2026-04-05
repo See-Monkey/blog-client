@@ -8,84 +8,84 @@ import { mockAuth } from "../../tests/mocks/useAuth.js";
 const useAuthMock = vi.fn();
 
 vi.mock("../../context/useAuth.js", () => ({
-	useAuth: () => useAuthMock(),
+  useAuth: () => useAuthMock(),
 }));
 
 describe("Header", () => {
-	test("renders login/register when unauthenticated", () => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
+  test("renders login/register when unauthenticated", () => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
 
-		renderWithRouter(<Header />);
+    renderWithRouter(<Header />);
 
-		expect(screen.getByText(/login/i)).toBeInTheDocument();
-		expect(screen.getByText(/register/i)).toBeInTheDocument();
-	});
+    expect(screen.getByText(/login/i)).toBeInTheDocument();
+    expect(screen.getByText(/register/i)).toBeInTheDocument();
+  });
 
-	test("renders logout when authenticated", () => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: true }));
+  test("renders logout when authenticated", () => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: true }));
 
-		renderWithRouter(<Header />);
+    renderWithRouter(<Header />);
 
-		expect(screen.getByText(/logout/i)).toBeInTheDocument();
-	});
+    expect(screen.getByText(/logout/i)).toBeInTheDocument();
+  });
 
-	test("shows Dashboard link when user is admin", () => {
-		useAuthMock.mockReturnValue(
-			mockAuth({ isAuthenticated: true, isAdmin: true }),
-		);
+  test("shows Dashboard link when user is admin", () => {
+    useAuthMock.mockReturnValue(
+      mockAuth({ isAuthenticated: true, isAdmin: true }),
+    );
 
-		renderWithRouter(<Header />);
+    renderWithRouter(<Header />);
 
-		const dashboardLink = screen.getByText(/dashboard/i);
+    const dashboardLink = screen.getByText(/dashboard/i);
 
-		expect(dashboardLink).toBeInTheDocument();
-	});
+    expect(dashboardLink).toBeInTheDocument();
+  });
 
-	test("does not show Dashboard link when user is not admin", () => {
-		useAuthMock.mockReturnValue(
-			mockAuth({ isAuthenticated: true, isAdmin: false }),
-		);
+  test("does not show Dashboard link when user is not admin", () => {
+    useAuthMock.mockReturnValue(
+      mockAuth({ isAuthenticated: true, isAdmin: false }),
+    );
 
-		renderWithRouter(<Header />);
+    renderWithRouter(<Header />);
 
-		const dashboardLink = screen.queryByText(/dashboard/i);
+    const dashboardLink = screen.queryByText(/dashboard/i);
 
-		expect(dashboardLink).toBeNull();
-	});
+    expect(dashboardLink).toBeNull();
+  });
 
-	beforeEach(() => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
-	});
+  beforeEach(() => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
+  });
 
-	test("highlights Home link when on home page", () => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
+  test("highlights Home link when on home page", () => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
 
-		render(
-			<MemoryRouter initialEntries={["/"]}>
-				<Header />
-			</MemoryRouter>,
-		);
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Header />
+      </MemoryRouter>,
+    );
 
-		const homeLink = screen.getByText(/home/i);
-		const postsLink = screen.getByText(/posts/i);
+    const homeLink = screen.getByText(/home/i);
+    const postsLink = screen.getByText(/posts/i);
 
-		expect(homeLink.className).toMatch(/active/); // Home should be active
-		expect(postsLink.className).not.toMatch(/active/); // Posts should not
-	});
+    expect(homeLink.className).toMatch(/active/); // Home should be active
+    expect(postsLink.className).not.toMatch(/active/); // Posts should not
+  });
 
-	test("highlights Posts link when on posts page", () => {
-		useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
+  test("highlights Posts link when on posts page", () => {
+    useAuthMock.mockReturnValue(mockAuth({ isAuthenticated: false }));
 
-		render(
-			<MemoryRouter initialEntries={["/posts"]}>
-				<Header />
-			</MemoryRouter>,
-		);
+    render(
+      <MemoryRouter initialEntries={["/posts"]}>
+        <Header />
+      </MemoryRouter>,
+    );
 
-		const homeLink = screen.getByText(/home/i);
-		const postsLink = screen.getByText(/posts/i);
+    const homeLink = screen.getByText(/home/i);
+    const postsLink = screen.getByText(/posts/i);
 
-		expect(postsLink.className).toMatch(/active/); // Posts should be active
-		expect(homeLink.className).not.toMatch(/active/); // Home should not
-	});
+    expect(postsLink.className).toMatch(/active/); // Posts should be active
+    expect(homeLink.className).not.toMatch(/active/); // Home should not
+  });
 });

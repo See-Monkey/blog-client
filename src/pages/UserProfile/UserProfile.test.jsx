@@ -6,20 +6,20 @@ import { mockAuth } from "../../tests/mocks/useAuth";
 const useAuthMock = vi.fn();
 
 vi.mock("../../context/useAuth.js", () => ({
-	useAuth: () => useAuthMock(),
+  useAuth: () => useAuthMock(),
 }));
 
 describe("UserProfile Page", () => {
-	test("renders profile page", () => {
-		useAuthMock.mockReturnValue(
-			mockAuth({ isAuthenticated: true, user: { name: "Alice" } }),
-		);
-		renderWithRouter(<UserProfile />);
-	});
+  test("renders profile page", () => {
+    useAuthMock.mockReturnValue(
+      mockAuth({ isAuthenticated: true, user: { name: "Alice" } }),
+    );
+    renderWithRouter(<UserProfile />);
+  });
 });
 
 describe("UserProfile Page", () => {
-	test("renders profile page", () => {
-		renderWithRouter(<UserProfile />);
-	});
+  test("renders profile page", () => {
+    renderWithRouter(<UserProfile />);
+  });
 });
